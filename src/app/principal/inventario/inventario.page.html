@@ -1,6 +1,45 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>inventario</ion-title>
+  <ion-toolbar color="{{colorSeleccionado}}">
+    <ion-grid>
+      <ion-row class="centrarTexto centrarVerticalmente">
+
+        <ion-col size="2">
+          <ion-buttons>
+            <ion-button (click)="toggleMenu()">
+              <ion-icon slot="icon-only" name="menu"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+        </ion-col>
+
+        <ion-col size="8">
+          <ion-title>
+            <ion-title>
+              <h1 *ngIf="nombreEmpresa!=undefined">{{nombreEmpresa}}</h1>
+              <h1 *ngIf="nombreEmpresa==undefined || nombreEmpresa==''">Inventario</h1>
+            </ion-title>
+          </ion-title>
+        </ion-col>
+
+        <ion-col size="2">
+          <ion-buttons>
+            <ion-button (click)="addBarcode()">
+              <ion-icon name="barcode"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+        </ion-col>
+
+      </ion-row>
+
+      <ion-row>
+
+        <ion-col size="12">
+          <ion-searchbar color="blancoUno" mode="ios" [(ngModel)]="codigo" placeholder="Buscar producto"
+            (ionChange)="buscar($event)" animated></ion-searchbar>
+        </ion-col>
+
+      </ion-row>
+
+    </ion-grid>
   </ion-toolbar>
 </ion-header>
 

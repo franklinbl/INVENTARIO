@@ -24,3 +24,21 @@
 @import "~@ionic/angular/css/text-alignment.css";
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
+
+
+ion-toolbar ion-title{
+    --color: white;
+}
+
+ion-button ion-icon{
+    color:white;
+}
+
+.centrarTexto{
+    text-align: center;
+}
+
+.centrarVerticalmente{
+    display: flex;
+    align-items: center;
+}

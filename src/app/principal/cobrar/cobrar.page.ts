@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { LocalStorageService } from 'src/app/servicios/local-storage.service';
 
 @Component({
   selector: 'app-cobrar',
@@ -7,9 +8,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CobrarPage implements OnInit {
 
-  constructor() { }
+  colorSeleccionado: any;
+
+  constructor(
+    private db: LocalStorageService
+  ) { }
 
   ngOnInit() {
+    this.db.getColor().subscribe(data => {
+      console.log(data);
+      this.colorSeleccionado = data;
+    })
   }
 
 }

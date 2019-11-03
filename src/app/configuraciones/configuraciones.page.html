@@ -1,0 +1,82 @@
+<ion-header>
+  <ion-toolbar *ngIf="colorSeleccionado!=null" color="{{colorSeleccionado}}">
+    <ion-title>Configuraciones</ion-title>
+  </ion-toolbar>
+
+  <ion-toolbar *ngIf="colorSeleccionado==null" color="primary">
+    <ion-title>Configuraciones</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-card>
+
+    <ion-grid>
+
+      <ion-row>
+        <ion-col>
+          <h1>Nombre de la empresa</h1>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col size="12">
+          <ion-item>
+            <ion-label color="{{colorSeleccionado}}" position="fixed">Empresa:</ion-label>
+            <ion-input [(ngModel)]="nombreEmpresa" value="nombreEmpresa" placeholder="Campo no obligatorio"></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+    </ion-grid>
+  </ion-card>
+
+  <ion-card>
+    <ion-grid>
+
+      <ion-row>
+        <ion-col>
+          <h1>Moneda por defecto</h1>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col size="12">
+          <ion-item>
+            <ion-label color="{{colorSeleccionado}}" position="fixed">Moneda:</ion-label>
+            <ion-input [(ngModel)]="moneda" value="moneda"
+              placeholder="Ejemplo: $, €, £, Bs">
+            </ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+    </ion-grid>
+  </ion-card>
+
+  <ion-card>
+    <ion-grid>
+
+      <ion-row>
+        <ion-col>
+          <h1>Color por defecto</h1>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col size="12/5" *ngFor="let item of colores">
+          <ion-button (click)="valorSeleccionado(item)" color="{{item}}"></ion-button>
+        </ion-col>
+      </ion-row>
+
+    </ion-grid>
+  </ion-card>
+
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-button color="{{colorSeleccionado}}" expand="full" (click)="guardar()">Guardar</ion-button>
+  </ion-toolbar>
+</ion-footer>

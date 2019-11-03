@@ -1,5 +1,7 @@
 {
   "name": "iventario",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }
