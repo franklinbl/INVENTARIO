@@ -1,0 +1,38 @@
+<ion-header>
+  <ion-toolbar color="{{colorSeleccionado}}">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+
+    <ion-title>Agregar abono</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <ion-item>
+    <ion-label position="stacked">Monto del pago</ion-label>
+    <ion-input inputmode="numeric" [(ngModel)]="abono.monto" placeholder="75000"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="stacked">Fecha del pago</ion-label>
+    <ion-datetime [(ngModel)]="abono.fecha" display-Format="YYYY MMMM DD" min="2015-01-01" max="2050-01-01">
+    </ion-datetime>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="stacked">Description del pago</ion-label>
+    <ion-textarea rows="5" [(ngModel)]="abono.descripcion" placeholder="Pago con tarjeta de debito">
+    </ion-textarea>
+  </ion-item>
+
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-title>
+      <ion-button color="{{colorSeleccionado}}" expand="block" (click)="addAbono()">Agregar abono</ion-button>
+    </ion-title>
+  </ion-toolbar>
+</ion-footer>

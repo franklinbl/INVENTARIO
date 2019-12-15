@@ -1,6 +1,7 @@
 <ion-header>
   <ion-toolbar *ngIf="colorSeleccionado!=null" color="{{colorSeleccionado}}">
     <ion-title>Configuraciones</ion-title>
+    <ion-icon class="cerrar" slot="end" (click)="cerrar()" name="close-circle"></ion-icon>
   </ion-toolbar>
 
   <ion-toolbar *ngIf="colorSeleccionado==null" color="primary">
@@ -9,6 +10,14 @@
 </ion-header>
 
 <ion-content>
+
+  <ion-card>
+    <ion-item>
+      <ion-icon slot="start" name="moon"></ion-icon>
+      <ion-label>Cambiar Thema</ion-label>
+      <ion-toggle mode="ios" slot="end" (ionChange)="cambiarDarkMode()"></ion-toggle>
+    </ion-item>
+  </ion-card>
 
   <ion-card>
 
@@ -45,8 +54,7 @@
         <ion-col size="12">
           <ion-item>
             <ion-label color="{{colorSeleccionado}}" position="fixed">Moneda:</ion-label>
-            <ion-input [(ngModel)]="moneda" value="moneda"
-              placeholder="Ejemplo: $, €, £, Bs">
+            <ion-input [(ngModel)]="moneda" value="moneda" placeholder="Ejemplo: $, €, £, Bs">
             </ion-input>
           </ion-item>
         </ion-col>

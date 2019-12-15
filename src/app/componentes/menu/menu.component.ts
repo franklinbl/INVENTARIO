@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { LocalStorageService } from 'src/app/servicios/local-storage.service';
 import { ConfiguracionesPage } from 'src/app/configuraciones/configuraciones.page';
 import { ModalController } from '@ionic/angular';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-menu',
@@ -14,7 +15,8 @@ export class MenuComponent implements OnInit {
 
   constructor(
     private db: LocalStorageService,
-    private modalCtrl: ModalController
+    private modalCtrl: ModalController,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -30,6 +32,26 @@ export class MenuComponent implements OnInit {
     });
 
     await modal.present();
+  }
+
+  irEstadisticas() {
+    this.router.navigate(['/estadisticas'])
+  }
+
+  addProducto() {
+    this.router.navigate(['/add-producto'])
+  }
+
+  irVenta() {
+    this.router.navigate(['/add-venta'])
+  }
+
+  addCuentaPagar() {
+    this.router.navigate(['/add-pago'])
+  }
+
+  addCuentaCobrar() {
+    this.router.navigate(['/add-cobro'])
   }
 
 }

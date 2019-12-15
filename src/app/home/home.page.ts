@@ -11,6 +11,7 @@ import { ModalController } from '@ionic/angular';
 export class HomePage implements OnInit {
 
   colorSeleccionado: any;
+  dark: any;
 
   constructor(
     private modalCtrl: ModalController,
@@ -27,17 +28,25 @@ export class HomePage implements OnInit {
 
   ngOnInit() {
 
+    this.dbLS.getTema().then(data => {
+      console.log('DATA DARK MODE', data)
+      if (data == true) {
+        document.body.classList.toggle('dark');
+        this.dark = data;
+      }
+    })
+
     this.dbLS.getPrimeraEntrada().then(data => {
       console.log('DATA PRIMERA VES', data)
       if (data == null) {
-
         this.abrirConfiguraciones()
-
-        this.dbLS.getColor().subscribe(data => {
-          console.log(data);
-          this.colorSeleccionado = data;
-        });
       }
+
+      this.dbLS.getColor().subscribe(data => {
+        console.log(data);
+        this.colorSeleccionado = data;
+        console.log('COLOR', this.colorSeleccionado)
+      });
     })
   }
 

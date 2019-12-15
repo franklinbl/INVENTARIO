@@ -1,0 +1,99 @@
+<ion-header>
+  <ion-toolbar color="{{colorSeleccionado}}">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="home"></ion-back-button>
+    </ion-buttons>
+
+    <ion-title>Agregar Producto</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <ion-card *ngFor="let producto of formularios; let indice = index; let primero = first;">
+
+    <ion-grid>
+      <ion-row>
+
+        <ion-col offset="2" size="8">
+          <div class="centrar">
+            <h3>Producto #{{indice+1}}</h3>
+          </div>
+        </ion-col>
+
+        <ion-col size="2">
+          <div class="quitar" *ngIf="!primero">
+            <ion-icon (click)="rmFormulario(producto.i)" name="close-circle"></ion-icon>
+          </div>
+        </ion-col>
+
+      </ion-row>
+    </ion-grid>
+
+    <ion-grid>
+      <ion-row>
+
+        <ion-col size="10">
+          <ion-item>
+            <ion-label position="stacked">Codigo del producto</ion-label>
+            <ion-input value="{{producto.codigo}}" [(ngModel)]="producto.codigo" placeholder="0000001"></ion-input>
+          </ion-item>
+        </ion-col>
+
+        <ion-col size="2">
+          <div class="btnBarcode">
+            <ion-button color="{{colorSeleccionado}}" (click)="addBarcode(indice)">
+              <ion-icon name="barcode"></ion-icon>
+            </ion-button>
+          </div>
+        </ion-col>
+
+      </ion-row>
+    </ion-grid>
+
+    <ion-item>
+      <ion-label position="stacked">Nombre del producto</ion-label>
+      <ion-input [(ngModel)]="producto.nombre" placeholder="Compacto"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="stacked">Nombre de la marca</ion-label>
+      <ion-input [(ngModel)]="producto.marca" placeholder="Valmy"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="stacked">Precio de Compra del producto</ion-label>
+      <ion-input inputmode="numeric" [(ngModel)]="producto.precioCompra" placeholder="7"></ion-input>
+    </ion-item>
+    
+    <ion-item>
+      <ion-label position="stacked">Precio de Venta del producto</ion-label>
+      <ion-input inputmode="numeric" [(ngModel)]="producto.precioVenta" placeholder="10"></ion-input>
+    </ion-item>
+
+    <ion-item >
+      <ion-label position="stacked">Stock del producto</ion-label>
+      <ion-input inputmode="numeric" [(ngModel)]="producto.stock" placeholder="12"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="stacked">Description</ion-label>
+      <ion-textarea rows="5" [(ngModel)]="producto.descripcion" placeholder="Compacto valmy doble funcion">
+      </ion-textarea>
+    </ion-item>
+
+  </ion-card>
+
+  <div class="centrar">
+    <ion-button color="{{colorSeleccionado}}" (click)="addFormulario()">Agregar otro Producto</ion-button>
+  </div>
+
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-title>
+      <ion-button color="{{colorSeleccionado}}" expand="block" (click)="addProducto()">Agregar al inventario</ion-button>
+    </ion-title>
+  </ion-toolbar>
+</ion-footer>

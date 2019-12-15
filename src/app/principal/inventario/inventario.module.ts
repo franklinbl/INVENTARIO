@@ -8,6 +8,7 @@ import { IonicModule } from '@ionic/angular';
 import { InventarioPage } from './inventario.page';
 import { ConfiguracionesPage } from 'src/app/configuraciones/configuraciones.page';
 import { ConfiguracionesPageModule } from 'src/app/configuraciones/configuraciones.module';
+import { PipesModule } from 'src/app/pipes/pipes.module';
 
 const routes: Routes = [
   {
@@ -21,6 +22,7 @@ const routes: Routes = [
     ConfiguracionesPage
   ],
   imports: [
+    PipesModule,
     CommonModule,
     FormsModule,
     IonicModule,

@@ -23,5 +23,6 @@ export class AppComponent {
       this.statusBar.show();
       this.splashScreen.hide();
     });
+
   }
 }

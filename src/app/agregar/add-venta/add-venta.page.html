@@ -1,0 +1,155 @@
+<ion-header>
+  <ion-toolbar color="{{colorSeleccionado}}">
+
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="home"></ion-back-button>
+    </ion-buttons>
+
+    <ion-title>Agregar Ventas</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-card>
+    <ion-grid>
+
+      <ion-row>
+        <ion-col class="justificar" size="12">
+          <h2 class="ventasDelDia">Añadir Venta</h2>
+        </ion-col>
+      </ion-row>
+
+      <div *ngFor="let item of formularios; let indice=index">
+        <ion-row>
+          <ion-col size="2">
+            <ion-item>
+              <ion-label position="stacked">#</ion-label>
+              <ion-input [(ngModel)]="item.cantidad" inputmode="numeric" placeholder="0"></ion-input>
+            </ion-item>
+          </ion-col>
+
+          <ion-col size="6">
+            <ion-item>
+              <ion-label position="stacked">Producto</ion-label>
+              <ion-input disabled inputmode="text" value="{{item.nombre}} - {{item.marca}}" placeholder="2">
+              </ion-input>
+            </ion-item>
+          </ion-col>
+
+          <ion-col size="3">
+            <ion-item>
+              <ion-label position="stacked">Stock</ion-label>
+              <ion-input disabled inputmode="text" value="{{item.stock}}" placeholder="2">
+              </ion-input>
+            </ion-item>
+          </ion-col>
+
+          <ion-col class="vaciar" size="1">
+            <div>
+              <ion-icon (click)="vaciar(item)" name="close-circle"></ion-icon>
+            </div>
+          </ion-col>
+        </ion-row>
+      </div>
+
+      <ion-row>
+        <ion-col size="12">
+          <ion-button expand="block" (click)="addVenta()">Confirmar venta</ion-button>
+        </ion-col>
+      </ion-row>
+      
+
+    </ion-grid>
+  </ion-card>
+
+  <ion-card *ngIf="ventasDelDia.length != 0">
+    <ion-grid>
+      <ion-row>
+
+        <ion-col class="justificar" size="12">
+          <h2 class="ventasDelDia">Ventas del dia</h2>
+        </ion-col>
+
+      </ion-row>
+
+      <ion-row (click)="dobleTap(item)" *ngFor="let item of ventasDelDia">
+
+        <ion-col size="2">
+          <ion-item>
+            <ion-label position="stacked">#</ion-label>
+            <ion-input disabled value="{{item.cantidad}}"></ion-input>
+          </ion-item>
+        </ion-col>
+
+        <ion-col size="5">
+          <ion-item>
+            <ion-label position="stacked">Producto</ion-label>
+            <ion-input disabled value="{{item.nombre}} - {{item.marca}}"></ion-input>
+          </ion-item>
+        </ion-col>
+
+        <ion-col size="4">
+          <ion-item>
+            <ion-label position="stacked">Fecha venta</ion-label>
+            <ion-input disabled value="{{item.fecha}}"></ion-input>
+          </ion-item>
+        </ion-col>
+
+        <ion-col class="eliminar" size="1">
+          <div>
+            <ion-icon (click)="eliminarVenta(item)" name="trash"></ion-icon>
+          </div>
+        </ion-col>
+
+      </ion-row>
+    </ion-grid>
+  </ion-card>
+
+  <ion-card>
+    <ion-grid>
+
+      <ion-row>
+        <ion-col class="justificar" size="12">
+          <h2 class="ventasDelDia">Lista de productos</h2>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col size="12">
+          <ion-searchbar mode="ios" [(ngModel)]="codigo" placeholder="Buscar producto" (ionChange)="buscar($event)"
+            animated></ion-searchbar>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <!-- <ion-list *ngFor="let item of productos | filtroProducto: textoBuscar"> -->
+          <ion-list *ngFor="let item of productos">
+
+            <ion-item (click)="addProductoVenta(item)">
+              <ion-label>
+                <ion-grid>
+                  <ion-row>
+
+                    <ion-col size="8">
+                      <p class="ion-text-capitalize">{{item.nombre}} - {{item.marca}}</p>
+                    </ion-col>
+
+                    <ion-col size="4">
+                      <p>Cantidad: {{item.stock}}</p>
+                    </ion-col>
+
+                  </ion-row>
+                </ion-grid>
+              </ion-label>
+            </ion-item>
+
+          </ion-list>
+        </ion-col>
+      </ion-row>
+
+    </ion-grid>
+  </ion-card>
+
+</ion-content>

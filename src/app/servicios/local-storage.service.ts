@@ -41,8 +41,8 @@ export class LocalStorageService {
       this.color.next(data);
     })
   }
-  
-  
+
+
   getNombreEmpresa(): Observable<any[]> {
     return this.nombreEmpresa.asObservable();
   }
@@ -59,8 +59,8 @@ export class LocalStorageService {
       this.nombreEmpresa.next(data);
     })
   }
-  
-  
+
+
   addPrimeraEntrada(primeraentrada) {
     return this.storage.set('primeraentrada', primeraentrada).then(data => {
       console.log('DATA', data)
@@ -72,8 +72,8 @@ export class LocalStorageService {
       return data
     })
   }
-  
-  
+
+
   addMoneda(moneda) {
     return this.storage.set('moneda', moneda).then(data => {
       console.log('DATA', data)
@@ -82,6 +82,19 @@ export class LocalStorageService {
 
   getMoneda() {
     return this.storage.get('moneda').then(data => {
+      return data
+    })
+  }
+
+
+  addTema(tema) {
+    return this.storage.set('tema', tema).then(data => {
+      console.log('DATA', data)
+    })
+  }
+
+  getTema() {
+    return this.storage.get('tema').then(data => {
       return data
     })
   }

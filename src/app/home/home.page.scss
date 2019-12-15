@@ -1,5 +1,90 @@
 
+.negro{
+    --color-selected: #000;
+    --ripple-color: #000;
+}
+
+.blanco{
+    --color-selected: #fff;
+    --ripple-color: #fff;
+}
+
+.azulUno{
+    --color-selected: #77b4fd;
+    --ripple-color: #77b4fd;
+}
+
+.azulDos{
+    --color-selected: #0773e9;
+    --ripple-color: #0773e9;
+}
+
+.azulTres{
+    --color-selected: #033874;
+    --ripple-color: #033874;
+}
+
+.verdeUno{
+    --color-selected: #94ef89;
+    --ripple-color: #94ef89;
+}
+
+.verdeDos{
+    --color-selected: #1c8011;
+    --ripple-color: #1c8011;
+}
+
+.amarilloUno{
+    --color-selected: #f5f14b;
+    --ripple-color: #f5f14b;
+}
+
+.rojoUno{
+    --color-selected: #ff9797;
+    --ripple-color: #ff9797;
+}
+
+.rojoDos{
+    --color-selected: #f41717;
+    --ripple-color: #f41717;
+}
+
+.rojoTres{
+    --color-selected: #ab0707;
+    --ripple-color: #ab0707;
+}
+
+.rosadoUno{
+    --color-selected: #f8b5fd;
+    --ripple-color: #f8b5fd;
+}
+
+.rosadoDos{
+    --color-selected: #eb38fa;
+    --ripple-color: #eb38fa;
+}
+
+.moradoUno{
+    --color-selected: #ba88e3;
+    --ripple-color: #ba88e3;
+}
+
+.moradoDos{
+    --color-selected: #7128ac;
+    --ripple-color: #7128ac;
+}
+
 .negroUno{
-    --color-selected: rgb(116, 2, 131);
-    --ripple-color: rgb(116, 2, 131);
+    --color-selected: #202020;
+    --ripple-color: #202020;
+}
+
+.grisUno{
+    --color-selected: #7f7f7f;
+    --ripple-color: #7f7f7f;
+}
+
+.blancoUno{
+    --color-selected: #ffffff;
+    --ripple-color: #ffffff;
 }

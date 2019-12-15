@@ -1,0 +1,117 @@
+<ion-header>
+  <ion-toolbar color="{{colorSeleccionado}}">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="home/pagar"></ion-back-button>
+    </ion-buttons>
+
+    <ion-title>Editar cuenta por pagar</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <ion-item>
+    <ion-label position="stacked">Nombre de la Empresa/persona</ion-label>
+    <ion-input disabled="{{editar}}" [(ngModel)]="cuentaPagar.nombre" placeholder="Valmy"
+      value="{{cuentaPagar.nombre}}"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="stacked">Monto de la deuda</ion-label>
+    <ion-input disabled="{{editar}}" inputmode="numeric" [(ngModel)]="cuentaPagar.monto" placeholder="75000"
+      value="{{cuentaPagar.monto}}"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="stacked">Fecha fin para el pago</ion-label>
+    <ion-datetime disabled="{{editar}}" [(ngModel)]="cuentaPagar.fechaFin" display-Format="YYYY MMMM DD"
+      min="2015-01-01" max="2050-01-01" value="{{cuentaPagar.fechaFin}}">
+    </ion-datetime>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="stacked">Description</ion-label>
+    <ion-textarea disabled="{{editar}}" rows="5" [(ngModel)]="cuentaPagar.descripcion"
+      placeholder="Compacto valmy doble funcion" value="{{cuentaPagar.descripcion}}">
+    </ion-textarea>
+  </ion-item>
+
+  <ion-grid>
+    <ion-row>
+
+      <ion-col size="12">
+        <ion-label class="centrarTexto">
+          <h1>Abonos</h1>
+        </ion-label>
+      </ion-col>
+
+      <ion-col size="12">
+        <ion-label class="centrarTexto">
+          <p>Monto restante de la deuda: {{montoRestante}} {{moneda}}</p>
+        </ion-label>
+      </ion-col>
+
+      <ion-col size="12">
+        <ion-list *ngFor="let item of abonos">
+
+          <ion-item-sliding>
+            <ion-item (click)="verDetalleAbono(item.id)" detail>
+              <ion-label>
+                <ion-text>
+                  <p>Fecha del abono: {{item.fecha |date:"dd MMMM yyy" }}</p>
+                  <h3>Monto del abono: {{item.monto}} {{moneda}}</h3>
+                  <p>Descripcion: {{item.descripcion}}</p>
+                </ion-text>
+              </ion-label>
+              <ion-note slot="end">
+              </ion-note>
+            </ion-item>
+
+            <ion-item-options side="end">
+              <ion-item-option (click)="eliminarAbono(item.id)" color="danger" expandable>
+                <ion-icon slot="icon-only" name="trash"></ion-icon>
+              </ion-item-option>
+            </ion-item-options>
+          </ion-item-sliding>
+
+        </ion-list>
+      </ion-col>
+
+    </ion-row>
+  </ion-grid>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button color="{{colorSeleccionado}}" (click)="addAbono(cuentaPagar.id)">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-title>
+      <ion-grid>
+        <ion-row>
+
+          <ion-col size="6" *ngIf="editar==false">
+            <ion-button color="{{colorSeleccionado}}" expand="block" (click)="cancelar()">Cancelar</ion-button>
+          </ion-col>
+
+          <ion-col size="6" *ngIf="editar==true">
+            <ion-button color="{{colorSeleccionado}}" expand="block" (click)="eliminarCuenta()">Eliminar</ion-button>
+          </ion-col>
+
+          <ion-col size="6" *ngIf="editar==false">
+            <ion-button color="{{colorSeleccionado}}" expand="block" (click)="actualizarCuenta()">Actualizar</ion-button>
+          </ion-col>
+
+          <ion-col size="6" *ngIf="editar==true">
+            <ion-button color="{{colorSeleccionado}}" expand="block" (click)="editarProducto()">Editar</ion-button>
+          </ion-col>
+
+        </ion-row>
+      </ion-grid>
+    </ion-title>
+  </ion-toolbar>
+</ion-footer>
