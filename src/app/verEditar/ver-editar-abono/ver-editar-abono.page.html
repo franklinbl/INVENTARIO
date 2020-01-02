@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar color="{{colorSeleccionado}}">
     <ion-buttons slot="start">
-      <ion-back-button></ion-back-button>
+      <ion-back-button color="blancoUno"></ion-back-button>
     </ion-buttons>
 
     <ion-title>Ver/Editar Abono</ion-title>
@@ -10,25 +10,32 @@
 
 <ion-content class="ion-padding">
 
-  <ion-item>
-    <ion-label position="stacked">Monto del pago</ion-label>
+  <div class="espcioInput">
+    <ion-label *ngIf="colorSeleccionado==='negroUno'" color="blancoUno" position="stacked">Monto del pago</ion-label>
+    <ion-label *ngIf="colorSeleccionado!=='negroUno'" color="{{colorSeleccionado}}" position="stacked">Monto del pago
+    </ion-label>
     <ion-input disabled="{{editar}}" [(ngModel)]="abono.monto" inputmode="numeric" [(ngModel)]="abono.monto"
       placeholder="75000"></ion-input>
-  </ion-item>
+  </div>
 
-  <ion-item>
-    <ion-label position="stacked">Fecha del pago</ion-label>
+  <div class="espcioInput">
+    <ion-label *ngIf="colorSeleccionado==='negroUno'" color="blancoUno" position="stacked">Fecha del pago</ion-label>
+    <ion-label *ngIf="colorSeleccionado!=='negroUno'" color="{{colorSeleccionado}}" position="stacked">Fecha del pago
+    </ion-label>
     <ion-datetime disabled="{{editar}}" [(ngModel)]="abono.fecha" [(ngModel)]="abono.fecha"
       display-Format="YYYY MMMM DD" min="2015-01-01" max="2050-01-01">
     </ion-datetime>
-  </ion-item>
+  </div>
 
-  <ion-item>
-    <ion-label position="stacked">Description del pago</ion-label>
+  <div class="espcioInput">
+    <ion-label *ngIf="colorSeleccionado==='negroUno'" color="blancoUno" position="stacked">Description del pago
+    </ion-label>
+    <ion-label *ngIf="colorSeleccionado!=='negroUno'" color="{{colorSeleccionado}}" position="stacked">Description del
+      pago</ion-label>
     <ion-textarea disabled="{{editar}}" [(ngModel)]="abono.descripcion" rows="5" [(ngModel)]="abono.descripcion"
       placeholder="Pago con tarjeta de debito">
     </ion-textarea>
-  </ion-item>
+  </div>
 
 </ion-content>
 
@@ -39,7 +46,7 @@
         <ion-row>
 
           <ion-col size="6" *ngIf="editar==false">
-            <ion-button color="{{colorSeleccionado}}" expand="block" (click)="cancelar()">Cancelar</ion-button >
+            <ion-button color="{{colorSeleccionado}}" expand="block" (click)="cancelar()">Cancelar</ion-button>
           </ion-col>
 
           <ion-col size="6" *ngIf="editar==true">

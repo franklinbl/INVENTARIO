@@ -1,4 +1,4 @@
-import { Platform } from '@ionic/angular';
+import { Platform, LoadingController } from '@ionic/angular';
 import { Injectable } from '@angular/core';
 import { SQLitePorter } from '@ionic-native/sqlite-porter/ngx';
 import { HttpClient } from '@angular/common/http';
@@ -15,6 +15,7 @@ export class SqliteBDService {
 
   private database: SQLiteObject;
   private dbReady: BehaviorSubject<boolean> = new BehaviorSubject(false);
+  load: any;
 
   productos = new BehaviorSubject([]);
   cobros = new BehaviorSubject([]);
@@ -28,20 +29,33 @@ export class SqliteBDService {
     private plt: Platform,
     private sqlitePorter: SQLitePorter,
     private sqlite: SQLite,
-    private http: HttpClient
+    private http: HttpClient,
+    private loading: LoadingController
   ) {
 
-    this.plt.ready().then(() => {
-      this.sqlite.create({
-        name: 'inventario.db',
-        location: 'default'
-      })
-        .then((db: SQLiteObject) => {
-          this.database = db;
-          this.seedDatabase();
-        });
+    this.presentLoading().then(() => {
+      this.plt.ready().then(() => {
+        this.sqlite.create({
+          name: 'inventario.db',
+          location: 'default'
+        })
+          .then((db: SQLiteObject) => {
+            this.database = db;
+            this.seedDatabase();
+          });
+      });
+      this.loading.dismiss();
     });
 
+  }
+
+  async presentLoading() {
+    this.load = await this.loading.create({
+      message: 'Cargando Datos',
+      keyboardClose: true,
+      spinner: 'bubbles'
+    });
+    await this.load.present();
   }
 
   seedDatabase() {

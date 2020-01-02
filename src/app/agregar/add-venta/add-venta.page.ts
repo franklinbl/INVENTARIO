@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { LocalStorageService } from 'src/app/servicios/local-storage.service';
-import { MenuController, ToastController, AlertController } from '@ionic/angular';
+import { MenuController, ToastController, AlertController, LoadingController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { SqliteBDService } from 'src/app/servicios/sqlite-bd.service';
 import * as moment from 'moment';
@@ -13,6 +13,7 @@ import * as moment from 'moment';
 export class AddVentaPage implements OnInit, OnDestroy {
 
   colorSeleccionado: any = undefined;
+  load: any;
 
   ventasDelDia: any[] = [];
   productos = [];
@@ -42,7 +43,8 @@ export class AddVentaPage implements OnInit, OnDestroy {
     private dbSQLite: SqliteBDService,
     private menuCtrl: MenuController,
     public toastController: ToastController,
-    public alertController: AlertController
+    public alertController: AlertController,
+    private loading: LoadingController
   ) {
     this.menuCtrl.enable(false);
   }
@@ -153,44 +155,50 @@ export class AddVentaPage implements OnInit, OnDestroy {
   addVenta() {
     let indice = 1;
 
-    // tslint:disable-next-line: prefer-for-of
-    for (let i = 0; i < this.formularios.length; i++) {
-      if (this.formularios[i].cantidad === undefined || this.formularios[i].cantidad === '') {
-        return this.presentToast('El producto numero ' + indice + ' no tiene una cantidad especifica', 2000);
-      } else {
-        if (this.formularios[i].cantidad > this.formularios[i].stock) {
-          return this.presentToast('La cantidad vendida del producto ' + indice + ' no puede ser mayor a ' + this.formularios[i].stock + ' el cual es la cantidad en existencia de este producto', 2000);
+    this.presentLoading().then(() => {
+      // tslint:disable-next-line: prefer-for-of
+      for (let i = 0; i < this.formularios.length; i++) {
+        if (this.formularios[i].cantidad === undefined || this.formularios[i].cantidad === '') {
+          this.load.dismiss();
+          return this.presentToast('El producto numero ' + indice + ' no tiene una cantidad especifica', 2000);
         } else {
+          if (this.formularios[i].cantidad > this.formularios[i].stock) {
+            this.load.dismiss();
+            return this.presentToast('La cantidad vendida del producto ' + indice + ' no puede ser mayor a ' + this.formularios[i].stock + ' el cual es la cantidad en existencia de este producto', 2000);
+          } else {
 
-          if (indice === this.formularios.length) {
-            this.ventaVerificada = true;
-          }
-
-          if (this.ventaVerificada === true) {
-            const fecha = moment().format('YYYY-MM-DD');
-
-            // tslint:disable-next-line: prefer-for-of
-            for (let p = 0; p < this.formularios.length; p++) {
-              const montoVenta = this.formularios[p].cantidad * this.formularios[p].precioVenta;
-
-              this.dbSQLite.addVenta(this.formularios[p].cantidad, montoVenta, fecha, this.formularios[p].id);
-              this.ajustarStock(this.formularios[p].id, this.formularios[p].cantidad, this.formularios[p].stock);
+            if (indice === this.formularios.length) {
+              this.ventaVerificada = true;
             }
 
-            // tslint:disable-next-line: prefer-for-of
-            for (let p = 0; p < this.formularios.length; p++) {
-              this.formularios[p].cantidad = undefined;
-            }
+            if (this.ventaVerificada === true) {
+              const fecha = moment().format('YYYY-MM-DD');
 
-            this.formularios = [];
-            this.formularios.push(this.producto);
+              // tslint:disable-next-line: prefer-for-of
+              for (let p = 0; p < this.formularios.length; p++) {
+                const montoVenta = this.formularios[p].cantidad * this.formularios[p].precioVenta;
+
+                this.dbSQLite.addVenta(this.formularios[p].cantidad, montoVenta, fecha, this.formularios[p].id);
+                this.ajustarStock(this.formularios[p].id, this.formularios[p].cantidad, this.formularios[p].stock);
+              }
+
+              // tslint:disable-next-line: prefer-for-of
+              for (let p = 0; p < this.formularios.length; p++) {
+                this.formularios[p].cantidad = undefined;
+              }
+
+              this.formularios = [];
+              this.formularios.push(this.producto);
+            }
           }
+
+          indice += 1;
+
         }
-
-        indice += 1;
-
       }
-    }
+      this.load.dismiss();
+    });
+
   }
 
   async actualizarVenta(item) {
@@ -328,6 +336,15 @@ export class AddVentaPage implements OnInit, OnDestroy {
     }
 
     this.dbSQLite.updateStockDelProducto(nuevoStock, id);
+  }
+
+  async presentLoading() {
+    this.load = await this.loading.create({
+      message: 'Agregando venta',
+      keyboardClose: true,
+      spinner: 'lines'
+    });
+    await this.load.present();
   }
 
 }

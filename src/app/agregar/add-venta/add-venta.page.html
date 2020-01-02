@@ -2,7 +2,7 @@
   <ion-toolbar color="{{colorSeleccionado}}">
 
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="home"></ion-back-button>
+      <ion-back-button color="blancoUno" defaultHref="home"></ion-back-button>
     </ion-buttons>
 
     <ion-title>Agregar Ventas</ion-title>
@@ -23,26 +23,29 @@
       <div *ngFor="let item of formularios; let indice=index">
         <ion-row>
           <ion-col size="2">
-            <ion-item>
-              <ion-label position="stacked">#</ion-label>
+            <div class="espcioInput">
+              <ion-label *ngIf="colorSeleccionado==='negroUno'" color="blancoUno" position="stacked">#</ion-label>
+              <ion-label *ngIf="colorSeleccionado!=='negroUno'" color="{{colorSeleccionado}}" position="stacked">#</ion-label>
               <ion-input [(ngModel)]="item.cantidad" inputmode="numeric" placeholder="0"></ion-input>
-            </ion-item>
+            </div>
           </ion-col>
 
           <ion-col size="6">
-            <ion-item>
-              <ion-label position="stacked">Producto</ion-label>
+            <div class="espcioInput">
+              <ion-label *ngIf="colorSeleccionado!=='negroUno'" color="{{colorSeleccionado}}" position="stacked">Producto</ion-label>
+              <ion-label *ngIf="colorSeleccionado==='negroUno'" color="blancoUno" position="stacked">Producto</ion-label>
               <ion-input disabled inputmode="text" value="{{item.nombre}} - {{item.marca}}" placeholder="2">
               </ion-input>
-            </ion-item>
+            </div>
           </ion-col>
 
           <ion-col size="3">
-            <ion-item>
-              <ion-label position="stacked">Stock</ion-label>
+            <div class="espcioInput">
+              <ion-label *ngIf="colorSeleccionado!=='negroUno'" color="{{colorSeleccionado}}" position="stacked">Stock</ion-label>
+              <ion-label *ngIf="colorSeleccionado==='negroUno'" color="blancoUno" position="stacked">Stock</ion-label>
               <ion-input disabled inputmode="text" value="{{item.stock}}" placeholder="2">
               </ion-input>
-            </ion-item>
+            </div>
           </ion-col>
 
           <ion-col class="vaciar" size="1">
@@ -58,7 +61,7 @@
           <ion-button expand="block" (click)="addVenta()">Confirmar venta</ion-button>
         </ion-col>
       </ion-row>
-      
+
 
     </ion-grid>
   </ion-card>
@@ -76,24 +79,24 @@
       <ion-row (click)="dobleTap(item)" *ngFor="let item of ventasDelDia">
 
         <ion-col size="2">
-          <ion-item>
+          <div class="espcioInput">
             <ion-label position="stacked">#</ion-label>
             <ion-input disabled value="{{item.cantidad}}"></ion-input>
-          </ion-item>
+          </div>
         </ion-col>
 
         <ion-col size="5">
-          <ion-item>
+          <div class="espcioInput">
             <ion-label position="stacked">Producto</ion-label>
             <ion-input disabled value="{{item.nombre}} - {{item.marca}}"></ion-input>
-          </ion-item>
+          </div>
         </ion-col>
 
         <ion-col size="4">
-          <ion-item>
+          <div class="espcioInput">
             <ion-label position="stacked">Fecha venta</ion-label>
             <ion-input disabled value="{{item.fecha}}"></ion-input>
-          </ion-item>
+          </div>
         </ion-col>
 
         <ion-col class="eliminar" size="1">

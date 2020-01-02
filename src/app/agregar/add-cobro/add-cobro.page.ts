@@ -3,7 +3,7 @@ import { CuentaCobrar } from 'src/app/interfaces/interfaces';
 import { SqliteBDService } from 'src/app/servicios/sqlite-bd.service';
 import { LocalStorageService } from 'src/app/servicios/local-storage.service';
 import { Router } from '@angular/router';
-import { ToastController, MenuController } from '@ionic/angular';
+import { ToastController, MenuController, LoadingController } from '@ionic/angular';
 
 @Component({
   selector: 'app-add-cobro',
@@ -15,6 +15,7 @@ export class AddCobroPage implements OnInit, OnDestroy {
   cuentasCobrar: CuentaCobrar[] = [];
   tiempoToast = 1750;
   colorSeleccionado: any[] = undefined;
+  load: any;
 
   cuentaCobrar = {
     nombre: undefined,
@@ -29,7 +30,8 @@ export class AddCobroPage implements OnInit, OnDestroy {
     private dbSQLite: SqliteBDService,
     private router: Router,
     public toastController: ToastController,
-    private menuCtrl: MenuController
+    private menuCtrl: MenuController,
+    private loading: LoadingController
   ) {
     this.menuCtrl.enable(false);
   }
@@ -55,40 +57,56 @@ export class AddCobroPage implements OnInit, OnDestroy {
 
   addCuentaCobrar() {
 
-    if (this.cuentaCobrar.nombre === '' || this.cuentaCobrar.nombre === undefined) {
-      return this.presentToast('El campo nombre no puede estar vacio', this.tiempoToast);
-    } else {
-      if (this.cuentaCobrar.monto === '' || this.cuentaCobrar.monto === undefined) {
-        return this.presentToast('El campo monto no puede estar vacio', this.tiempoToast);
+    this.presentLoading().then(() => {
+      if (this.cuentaCobrar.nombre === '' || this.cuentaCobrar.nombre === undefined) {
+        this.load.dismiss();
+        return this.presentToast('El campo nombre no puede estar vacio', this.tiempoToast);
       } else {
-        if (this.cuentaCobrar.fechaInicio === '' || this.cuentaCobrar.fechaInicio === undefined) {
-          return this.presentToast('El campo fecha Inicio no puede estar vacio', this.tiempoToast);
+        if (this.cuentaCobrar.monto === '' || this.cuentaCobrar.monto === undefined) {
+          this.load.dismiss();
+          return this.presentToast('El campo monto no puede estar vacio', this.tiempoToast);
         } else {
-          if (this.cuentaCobrar.fechaInicio > this.cuentaCobrar.fechaFin) {
-            return this.presentToast('La fecha de inicio no puede ser mayor a la fecha fin', this.tiempoToast);
+          if (this.cuentaCobrar.fechaInicio === '' || this.cuentaCobrar.fechaInicio === undefined) {
+            this.load.dismiss();
+            return this.presentToast('El campo fecha Inicio no puede estar vacio', this.tiempoToast);
           } else {
-            {
-              // tslint:disable-next-line: max-line-length
-              console.log(this.cuentaCobrar.nombre + '-' + this.cuentaCobrar.monto + '-' + this.cuentaCobrar.fechaInicio + '-' + this.cuentaCobrar.fechaFin + '-' + this.cuentaCobrar.descripcion);
-              // tslint:disable-next-line: max-line-length
-              this.dbSQLite.addCobro(this.cuentaCobrar.nombre, this.cuentaCobrar.monto, this.cuentaCobrar.fechaInicio, this.cuentaCobrar.fechaFin, this.cuentaCobrar.descripcion)
-                .then(_ => {
-                  this.cuentaCobrar = {
-                    nombre: undefined,
-                    monto: undefined,
-                    fechaInicio: undefined,
-                    fechaFin: undefined,
-                    descripcion: undefined
-                  };
-                  this.presentToast('La cuenta se a añadido exitosamente', this.tiempoToast);
-                });
-              this.router.navigate(['/home/cobrar']);
-
+            if (this.cuentaCobrar.fechaInicio > this.cuentaCobrar.fechaFin) {
+              this.load.dismiss();
+              return this.presentToast('La fecha de inicio no puede ser mayor a la fecha fin', this.tiempoToast);
+            } else {
+              {
+                // tslint:disable-next-line: max-line-length
+                console.log(this.cuentaCobrar.nombre + '-' + this.cuentaCobrar.monto + '-' + this.cuentaCobrar.fechaInicio + '-' + this.cuentaCobrar.fechaFin + '-' + this.cuentaCobrar.descripcion);
+                // tslint:disable-next-line: max-line-length
+                this.dbSQLite.addCobro(this.cuentaCobrar.nombre, this.cuentaCobrar.monto, this.cuentaCobrar.fechaInicio, this.cuentaCobrar.fechaFin, this.cuentaCobrar.descripcion)
+                  .then(_ => {
+                    this.cuentaCobrar = {
+                      nombre: undefined,
+                      monto: undefined,
+                      fechaInicio: undefined,
+                      fechaFin: undefined,
+                      descripcion: undefined
+                    };
+                    this.presentToast('La cuenta se a añadido exitosamente', this.tiempoToast);
+                  });
+                this.load.dismiss();
+                this.router.navigate(['/home/cobrar']);
+              }
             }
           }
         }
       }
-    }
+    });
+
+  }
+
+  async presentLoading() {
+    this.load = await this.loading.create({
+      message: 'Agregando Cobro',
+      keyboardClose: true,
+      spinner: 'lines'
+    });
+    await this.load.present();
   }
 
 }

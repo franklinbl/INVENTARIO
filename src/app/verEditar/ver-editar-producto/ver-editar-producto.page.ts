@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { SqliteBDService } from 'src/app/servicios/sqlite-bd.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import { AlertController, ToastController, MenuController } from '@ionic/angular';
+import { AlertController, ToastController, MenuController, LoadingController } from '@ionic/angular';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
 import { LocalStorageService } from 'src/app/servicios/local-storage.service';
 import { Producto } from 'src/app/interfaces/interfaces';
@@ -14,6 +14,7 @@ import { Producto } from 'src/app/interfaces/interfaces';
 export class VerEditarProductoPage implements OnInit {
 
   colorSeleccionado: any = undefined;
+  load: any;
 
   idProducto: number;
   editar = true;
@@ -47,18 +48,19 @@ export class VerEditarProductoPage implements OnInit {
     public alertController: AlertController,
     public toastController: ToastController,
     private barcodeScanner: BarcodeScanner,
-    private menuCtrl: MenuController) {
+    private menuCtrl: MenuController,
+    private loading: LoadingController) {
 
     this.menuCtrl.enable(false);
   }
 
   ngOnInit() {
     this.DBLocalStorage.getColor().subscribe(color => {
-      console.log('COLOR', color)
-      this.colorSeleccionado = color
-    })
+      console.log('COLOR', color);
+      this.colorSeleccionado = color;
+    });
 
-    this.idProducto = this.rutaActiva.snapshot.params['id'];
+    this.idProducto = this.rutaActiva.snapshot.params.id;
     console.log(this.idProducto);
 
     this.BDSQLite.getProducto(this.idProducto).then(data => {
@@ -94,9 +96,9 @@ export class VerEditarProductoPage implements OnInit {
         }, {
           text: 'Si',
           handler: () => {
-            this.BDSQLite.deleteProducto(this.idProducto)
-            this.presentToast("Producto eliminado exitosamente", 2500)
-            this.router.navigate(['/home'])
+            this.BDSQLite.deleteProducto(this.idProducto);
+            this.presentToast('Producto eliminado exitosamente', 2500);
+            this.router.navigate(['/home']);
           }
         }
       ]
@@ -106,56 +108,74 @@ export class VerEditarProductoPage implements OnInit {
   }
 
   editarProducto() {
-    this.editar = false
-    console.log(this.editar)
+    this.editar = false;
+    console.log(this.editar);
   }
 
   cancelar() {
-    this.editar = true
+    this.editar = true;
     this.BDSQLite.getProducto(this.idProducto).then(data => {
       this.producto = data;
     });
-    console.log(this.editar)
+    console.log(this.editar);
   }
 
   actualizar() {
-    if (this.producto.nombre == '' || this.producto.nombre == undefined) {
-      return this.presentToast("El campo nombre no puede estar vacio", 1750);
-    } else {
-      if (this.producto.marca == '' || this.producto.marca == undefined) {
-        return this.presentToast("El campo marca no puede estar vacio", 1750);
+    this.presentLoading().then(() => {
+      if (this.producto.nombre === '' || this.producto.nombre === undefined) {
+        this.load.dismiss();
+        return this.presentToast('El campo nombre no puede estar vacio', 1750);
       } else {
-        if (this.producto.precioVenta == null || this.producto.precioVenta == undefined) {
-          return this.presentToast("El campo precio venta no puede estar vacio", 1750);
+        if (this.producto.marca === '' || this.producto.marca === undefined) {
+          this.load.dismiss();
+          return this.presentToast('El campo marca no puede estar vacio', 1750);
         } else {
-          if (this.producto.precioCompra == null || this.producto.precioCompra == undefined) {
-            return this.presentToast("El campo moneda compra no puede estar vacio", 1750);
+          if (this.producto.precioVenta === null || this.producto.precioVenta === undefined) {
+            this.load.dismiss();
+            return this.presentToast('El campo precio venta no puede estar vacio', 1750);
           } else {
-            if (this.producto.stock == null || this.producto.stock == undefined) {
-              return this.presentToast("El campo stock no puede estar vacio", 1750);
+            if (this.producto.precioCompra === null || this.producto.precioCompra === undefined) {
+              this.load.dismiss();
+              return this.presentToast('El campo moneda compra no puede estar vacio', 1750);
             } else {
-              this.BDSQLite.updateProducto(this.producto);
+              if (this.producto.stock === null || this.producto.stock === undefined) {
+                this.load.dismiss();
+                return this.presentToast('El campo stock no puede estar vacio', 1750);
+              } else {
+                this.BDSQLite.updateProducto(this.producto);
 
-              this.presentToast("Producto actualizado exitosamente", 1750);
+                this.presentToast('Producto actualizado exitosamente', 1750);
 
-              this.BDSQLite.getProducto(this.idProducto).then(data => {
-                this.producto = data;
-              });
+                this.BDSQLite.getProducto(this.idProducto).then(data => {
+                  this.producto = data;
+                });
 
-              this.editar = true
+                this.load.dismiss();
+                this.editar = true;
+              }
             }
           }
         }
       }
-    }
+    });
   }
 
   addBarcode() {
     this.barcodeScanner.scan().then(barcodeData => {
-      this.producto.codigo = barcodeData.text
+      this.producto.codigo = barcodeData.text;
     }).catch(err => {
-      this.presentToast("Error al leer el codigo de barra", 1750);
+      this.presentToast('Error al leer el codigo de barra', 1750);
     });
   }
+
+  async presentLoading() {
+    this.load = await this.loading.create({
+      message: 'Actualizando Abono',
+      keyboardClose: true,
+      spinner: 'lines'
+    });
+    await this.load.present();
+  }
+
 
 }

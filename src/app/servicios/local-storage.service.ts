@@ -31,15 +31,15 @@ export class LocalStorageService {
 
   addColor(color) {
     return this.storage.set('color', color).then(data => {
-      console.log('DATA', data)
-      this.loadColor()
-    })
+      console.log('DATA', data);
+      this.loadColor();
+    });
   }
 
   loadColor() {
     return this.storage.get('color').then(data => {
       this.color.next(data);
-    })
+    });
   }
 
 
@@ -49,53 +49,53 @@ export class LocalStorageService {
 
   addNombreEmpresa(nombreEmpresa) {
     return this.storage.set('nombreEmpresa', nombreEmpresa).then(data => {
-      console.log('DATA', data)
-      this.loadNombreEmpresa()
-    })
+      console.log('DATA', data);
+      this.loadNombreEmpresa();
+    });
   }
 
   loadNombreEmpresa() {
     return this.storage.get('nombreEmpresa').then(data => {
       this.nombreEmpresa.next(data);
-    })
+    });
   }
 
 
   addPrimeraEntrada(primeraentrada) {
     return this.storage.set('primeraentrada', primeraentrada).then(data => {
-      console.log('DATA', data)
-    })
+      console.log('DATA', data);
+    });
   }
 
   getPrimeraEntrada() {
     return this.storage.get('primeraentrada').then(data => {
-      return data
-    })
+      return data;
+    });
   }
 
 
   addMoneda(moneda) {
     return this.storage.set('moneda', moneda).then(data => {
-      console.log('DATA', data)
-    })
+      console.log('DATA', data);
+    });
   }
 
   getMoneda() {
     return this.storage.get('moneda').then(data => {
-      return data
-    })
+      return data;
+    });
   }
 
 
   addTema(tema) {
     return this.storage.set('tema', tema).then(data => {
-      console.log('DATA', data)
-    })
+      console.log('DATA', data);
+    });
   }
 
   getTema() {
     return this.storage.get('tema').then(data => {
-      return data
-    })
+      return data;
+    });
   }
 }

@@ -30,7 +30,7 @@ export class HomePage implements OnInit {
 
     this.dbLS.getTema().then(data => {
       console.log('DATA DARK MODE', data)
-      if (data == true) {
+      if (data === true) {
         document.body.classList.toggle('dark');
         this.dark = data;
       }

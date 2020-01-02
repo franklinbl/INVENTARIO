@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { SqliteBDService } from 'src/app/servicios/sqlite-bd.service';
 import { LocalStorageService } from 'src/app/servicios/local-storage.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import { AlertController, ToastController, MenuController } from '@ionic/angular';
+import { AlertController, ToastController, MenuController, LoadingController } from '@ionic/angular';
 import { CuentaCobrar, Abonos } from 'src/app/interfaces/interfaces';
 
 @Component({
@@ -14,6 +14,7 @@ export class VerEditarCobroPage implements OnInit, OnDestroy {
 
   idCuentaCobrar: number;
   editar = true;
+  load: any;
 
   abonos: Abonos[] = [];
 
@@ -41,7 +42,8 @@ export class VerEditarCobroPage implements OnInit, OnDestroy {
     private rutaActiva: ActivatedRoute,
     public alertController: AlertController,
     public toastController: ToastController,
-    private menuCtrl: MenuController) {
+    private menuCtrl: MenuController,
+    private loading: LoadingController) {
 
     this.menuCtrl.enable(false);
   }
@@ -145,36 +147,45 @@ export class VerEditarCobroPage implements OnInit, OnDestroy {
 
   actualizarCuenta() {
 
-    if (this.cuentaCobrar.nombre === '' || this.cuentaCobrar.nombre === undefined) {
-      return this.presentToast('El campo nombre no puede estar vacio', this.tiempoToast);
-    } else {
-      if (this.cuentaCobrar.monto === null || this.cuentaCobrar.monto === undefined) {
-        return this.presentToast('El campo monto no puede estar vacio', this.tiempoToast);
+    this.presentLoading().then(() => {
+      if (this.cuentaCobrar.nombre === '' || this.cuentaCobrar.nombre === undefined) {
+        this.load.dismiss();
+        return this.presentToast('El campo nombre no puede estar vacio', this.tiempoToast);
       } else {
-        if (this.cuentaCobrar.fechaInicio === null || this.cuentaCobrar.fechaInicio === undefined) {
-          return this.presentToast('El campo fecha Inicio no puede estar vacio', this.tiempoToast);
+        if (this.cuentaCobrar.monto === null || this.cuentaCobrar.monto === undefined) {
+          this.load.dismiss();
+          return this.presentToast('El campo monto no puede estar vacio', this.tiempoToast);
         } else {
-          if (this.cuentaCobrar.fechaFin === null || this.cuentaCobrar.fechaFin === undefined) {
-            return this.presentToast('El campo fecha Fin no puede estar vacio', this.tiempoToast);
+          if (this.cuentaCobrar.fechaInicio === null || this.cuentaCobrar.fechaInicio === undefined) {
+            this.load.dismiss();
+            return this.presentToast('El campo fecha Inicio no puede estar vacio', this.tiempoToast);
           } else {
-            if (this.cuentaCobrar.fechaInicio > this.cuentaCobrar.fechaFin) {
-              return this.presentToast('La fecha de inicio no puede ser mayor a la fecha fin', this.tiempoToast);
+            if (this.cuentaCobrar.fechaFin === null || this.cuentaCobrar.fechaFin === undefined) {
+              this.load.dismiss();
+              return this.presentToast('El campo fecha Fin no puede estar vacio', this.tiempoToast);
             } else {
-              this.BDSQLite.updateCobro(this.cuentaCobrar);
+              if (this.cuentaCobrar.fechaInicio > this.cuentaCobrar.fechaFin) {
+                this.load.dismiss();
+                return this.presentToast('La fecha de inicio no puede ser mayor a la fecha fin', this.tiempoToast);
+              } else {
+                this.BDSQLite.updateCobro(this.cuentaCobrar);
 
-              this.presentToast('Producto actualizado exitosamente', 1750);
+                this.presentToast('Producto actualizado exitosamente', 1750);
 
-              this.BDSQLite.getCobro(this.idCuentaCobrar).then(data => {
-                this.cuentaCobrar = data;
-              });
+                this.BDSQLite.getCobro(this.idCuentaCobrar).then(data => {
+                  this.cuentaCobrar = data;
+                });
 
-              this.editar = true;
-              this.montoRestantefuntion();
+                this.load.dismiss();
+                this.editar = true;
+                this.montoRestantefuntion();
+              }
             }
           }
         }
       }
-    }
+    });
+
   }
 
   addAbono(cuentaId) {
@@ -206,6 +217,15 @@ export class VerEditarCobroPage implements OnInit, OnDestroy {
 
   verDetalleAbono(id) {
     this.router.navigate(['/ver-editar-abono', id]);
+  }
+
+  async presentLoading() {
+    this.load = await this.loading.create({
+      message: 'Actualizando Cobro',
+      keyboardClose: true,
+      spinner: 'lines'
+    });
+    await this.load.present();
   }
 
 }

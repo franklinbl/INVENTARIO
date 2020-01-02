@@ -19,8 +19,8 @@ export class InventarioPage implements OnInit, OnDestroy {
   moneda: any = undefined;
 
   productos: Producto[] = [];
-  textoBuscar: string = '';
-  codigo: string = '';
+  textoBuscar = '';
+  codigo = '';
 
   constructor(
     private DBLocalStorage: LocalStorageService,
@@ -28,32 +28,32 @@ export class InventarioPage implements OnInit, OnDestroy {
     private menuCtrl: MenuController,
     private router: Router,
     private barcodeScanner: BarcodeScanner,
-    public alertController: AlertController
+    public alertController: AlertController,
   ) { }
 
   ngOnInit() {
     this.DBLocalStorage.getColor().subscribe(color => {
-      console.log('COLOR', color)
-      this.colorSeleccionado = color
-    })
+      console.log('COLOR', color);
+      this.colorSeleccionado = color;
+    });
 
     this.DBLocalStorage.getMoneda().then(moneda => {
-      console.log('MONEDA', moneda)
-      this.moneda = moneda
-    })
+      console.log('MONEDA', moneda);
+      this.moneda = moneda;
+    });
 
     this.DBLocalStorage.getNombreEmpresa().subscribe(nombre => {
-      console.log('NOMBRE', nombre)
-      this.nombreEmpresa = nombre
-    })
+      console.log('NOMBRE', nombre);
+      this.nombreEmpresa = nombre;
+    });
 
     this.DBSQLite.getDatabaseState().subscribe(rdy => {
       if (rdy) {
 
         this.DBSQLite.getProductos().subscribe(prod => {
-          console.log(prod)
+          console.log(prod);
           this.productos = prod;
-        })
+        });
 
       }
     });
@@ -72,7 +72,7 @@ export class InventarioPage implements OnInit, OnDestroy {
         }, {
           text: 'Si',
           handler: () => {
-            this.DBSQLite.deleteProducto(id)
+            this.DBSQLite.deleteProducto(id);
           }
         }
       ]
@@ -82,23 +82,23 @@ export class InventarioPage implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    console.log('inventario')
+    console.log('inventario');
   }
 
   toggleMenu() {
-    this.menuCtrl.toggle()
+    this.menuCtrl.toggle();
   }
 
   addProducto() {
-    this.router.navigate(['/add-producto'])
+    this.router.navigate(['/add-producto']);
   }
 
   addVenta() {
-    this.router.navigate(['/add-venta'])
+    this.router.navigate(['/add-venta']);
   }
 
   verDetalle(id) {
-    this.router.navigate(['/ver-editar-producto', id])
+    this.router.navigate(['/ver-editar-producto', id]);
   }
 
   buscar(event) {
@@ -109,8 +109,8 @@ export class InventarioPage implements OnInit, OnDestroy {
   addBarcode() {
     this.barcodeScanner.scan().then(barcodeData => {
       console.log('Barcode data', barcodeData);
-      this.codigo = barcodeData.text
-      this.textoBuscar = barcodeData.text
+      this.codigo = barcodeData.text;
+      this.textoBuscar = barcodeData.text;
     }).catch(err => {
       console.log('Error', err);
     });

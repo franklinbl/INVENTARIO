@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { SqliteBDService } from 'src/app/servicios/sqlite-bd.service';
 import { LocalStorageService } from 'src/app/servicios/local-storage.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import { AlertController, ToastController, MenuController } from '@ionic/angular';
+import { AlertController, ToastController, MenuController, LoadingController } from '@ionic/angular';
 import { Abonos, CuentaPagar } from 'src/app/interfaces/interfaces';
 
 @Component({
@@ -16,7 +16,7 @@ export class VerEditarPagoPage implements OnInit, OnDestroy {
   editar = true;
 
   abonos: Abonos[] = [];
-
+  load: any;
   montoRestante = 0;
   montosAbonados = 0;
 
@@ -40,7 +40,9 @@ export class VerEditarPagoPage implements OnInit, OnDestroy {
     private rutaActiva: ActivatedRoute,
     public alertController: AlertController,
     public toastController: ToastController,
-    private menuCtrl: MenuController) {
+    private menuCtrl: MenuController,
+    private loading: LoadingController
+  ) {
 
     this.menuCtrl.enable(false);
   }
@@ -144,29 +146,36 @@ export class VerEditarPagoPage implements OnInit, OnDestroy {
 
   actualizarCuenta() {
 
-    if (this.cuentaPagar.nombre === '' || this.cuentaPagar.nombre === undefined) {
-      return this.presentToast('El campo nombre no puede estar vacio', this.tiempoToast);
-    } else {
-      if (this.cuentaPagar.monto === null || this.cuentaPagar.monto === undefined) {
-        return this.presentToast('El campo monto no puede estar vacio', this.tiempoToast);
+    this.presentLoading().then(() => {
+      if (this.cuentaPagar.nombre === '' || this.cuentaPagar.nombre === undefined) {
+        this.load.dismiss();
+        return this.presentToast('El campo nombre no puede estar vacio', this.tiempoToast);
       } else {
-        if (this.cuentaPagar.fechaFin === null || this.cuentaPagar.fechaFin === undefined) {
-          return this.presentToast('El campo fecha Fin no puede estar vacio', this.tiempoToast);
+        if (this.cuentaPagar.monto === null || this.cuentaPagar.monto === undefined) {
+          this.load.dismiss();
+          return this.presentToast('El campo monto no puede estar vacio', this.tiempoToast);
         } else {
+          if (this.cuentaPagar.fechaFin === null || this.cuentaPagar.fechaFin === undefined) {
+            this.load.dismiss();
+            return this.presentToast('El campo fecha Fin no puede estar vacio', this.tiempoToast);
+          } else {
 
-          this.BDSQLite.updatePago(this.cuentaPagar);
+            this.BDSQLite.updatePago(this.cuentaPagar);
 
-          this.presentToast('Producto actualizado exitosamente', 1750);
+            this.presentToast('Producto actualizado exitosamente', 1750);
 
-          this.BDSQLite.getCobro(this.idCuentaPagar).then(data => {
-            this.cuentaPagar = data;
-          });
+            this.BDSQLite.getCobro(this.idCuentaPagar).then(data => {
+              this.cuentaPagar = data;
+            });
 
-          this.editar = true;
-          this.montoRestantefuntion();
+            this.load.dismiss();
+            this.editar = true;
+            this.montoRestantefuntion();
+          }
         }
       }
-    }
+    });
+
   }
 
   addAbono(cuentaId) {
@@ -198,6 +207,15 @@ export class VerEditarPagoPage implements OnInit, OnDestroy {
 
   verDetalleAbono(id) {
     this.router.navigate(['/ver-editar-abono', id]);
+  }
+
+  async presentLoading() {
+    this.load = await this.loading.create({
+      message: 'Actualizando Abono',
+      keyboardClose: true,
+      spinner: 'lines'
+    });
+    await this.load.present();
   }
 
 }

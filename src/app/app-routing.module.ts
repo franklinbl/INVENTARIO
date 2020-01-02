@@ -16,8 +16,7 @@ const routes: Routes = [
   { path: 'ver-editar-abono/:id', loadChildren: './verEditar/ver-editar-abono/ver-editar-abono.module#VerEditarAbonoPageModule' },
   { path: 'ver-editar-cobro/:id', loadChildren: './verEditar/ver-editar-cobro/ver-editar-cobro.module#VerEditarCobroPageModule' },
   { path: 'ver-editar-pago/:id', loadChildren: './verEditar/ver-editar-pago/ver-editar-pago.module#VerEditarPagoPageModule' },
-  // tslint:disable-next-line: max-line-length
-  { path: 'ver-editar-estadisticas', loadChildren: './verEditar/ver-editar-estadisticas/ver-editar-estadisticas.module#VerEditarEstadisticasPageModule' },  { path: 'estadisticas', loadChildren: './verEditar/estadisticas/estadisticas.module#EstadisticasPageModule' },
+  { path: 'estadisticas', loadChildren: './verEditar/estadisticas/estadisticas.module#EstadisticasPageModule' },
 
 
 

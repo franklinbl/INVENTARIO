@@ -3,7 +3,7 @@ import { Abonos } from 'src/app/interfaces/interfaces';
 import { SqliteBDService } from 'src/app/servicios/sqlite-bd.service';
 import { LocalStorageService } from 'src/app/servicios/local-storage.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import { AlertController, ToastController, NavController, MenuController } from '@ionic/angular';
+import { AlertController, ToastController, NavController, MenuController, LoadingController } from '@ionic/angular';
 
 @Component({
   selector: 'app-ver-editar-abono',
@@ -16,6 +16,7 @@ export class VerEditarAbonoPage implements OnInit, OnDestroy {
 
   idAbono: number;
   editar = true;
+  load: any;
 
   montoRestante = 0;
   montosAbonados = 0;
@@ -36,7 +37,8 @@ export class VerEditarAbonoPage implements OnInit, OnDestroy {
     public alertController: AlertController,
     public toastController: ToastController,
     private navCtrl: NavController,
-    private menuCtrl: MenuController) {
+    private menuCtrl: MenuController,
+    private loading: LoadingController) {
 
     this.menuCtrl.enable(false);
   }
@@ -106,15 +108,28 @@ export class VerEditarAbonoPage implements OnInit, OnDestroy {
 
   actualizarAbono() {
 
-    this.dbSQLite.updateAbono(this.abono, this.abono.idCuenta);
+    this.presentLoading().then(() => {
+      this.dbSQLite.updateAbono(this.abono, this.abono.idCuenta);
 
-    this.presentToast('Producto actualizado exitosamente', 1750);
+      this.presentToast('Producto actualizado exitosamente', 1750);
 
-    this.dbSQLite.getAbono(this.idAbono).then(data => {
-      this.abono = data;
+      this.dbSQLite.getAbono(this.idAbono).then(data => {
+        this.abono = data;
+      });
+
+      this.editar = true;
+      this.load.dismiss();
     });
 
-    this.editar = true;
+  }
+
+  async presentLoading() {
+    this.load = await this.loading.create({
+      message: 'Actualizando Abono',
+      keyboardClose: true,
+      spinner: 'lines'
+    });
+    await this.load.present();
   }
 
 }

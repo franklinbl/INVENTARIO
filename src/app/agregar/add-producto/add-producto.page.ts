@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { LocalStorageService } from 'src/app/servicios/local-storage.service';
-import { MenuController, ToastController } from '@ionic/angular';
+import { MenuController, ToastController, LoadingController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { Producto } from 'src/app/interfaces/interfaces';
 import { SqliteBDService } from 'src/app/servicios/sqlite-bd.service';
@@ -17,12 +17,13 @@ export class AddProductoPage implements OnInit, OnDestroy {
   nombreEmpresa: any = undefined;
   moneda: any = undefined;
 
+  load: any;
+
   productos: Producto[] = [];
   formularios = [];
   indiceProducto = 0;
   tiempoToast = 2000;
   productosVerificados = false;
-  loading: any;
 
   constructor(
     private dbLocalStorage: LocalStorageService,
@@ -32,7 +33,7 @@ export class AddProductoPage implements OnInit, OnDestroy {
 
     public toastController: ToastController,
     private barcodeScanner: BarcodeScanner,
-    // public loadingCtrl: LoadingController
+    private loading: LoadingController
   ) { }
 
   async presentToast(mensaje: string, duracion: number) {
@@ -41,6 +42,15 @@ export class AddProductoPage implements OnInit, OnDestroy {
       duration: duracion
     });
     toast.present();
+  }
+
+  async presentLoading() {
+    this.load = await this.loading.create({
+      message: 'Agregando productos',
+      keyboardClose: true,
+      spinner: 'lines'
+    });
+    await this.load.present();
   }
 
   ngOnInit() {
@@ -70,70 +80,77 @@ export class AddProductoPage implements OnInit, OnDestroy {
   addProducto() {
     let numeroProducto = 0;
 
-    // tslint:disable-next-line: prefer-for-of
-    for (let i = 0; i < this.formularios.length; i++) {
-      numeroProducto += 1;
+    this.presentLoading().then(() => {
 
-      if (this.formularios[i].nombre === '' || this.formularios[i].nombre === undefined) {
-        return this.presentToast('El campo nombre del producto numero ' + numeroProducto + ' no puede estar vacio', this.tiempoToast);
-      } else {
-        if (this.formularios[i].marca === '' || this.formularios[i].marca === undefined) {
-          return this.presentToast('El campo marca del producto numero ' + numeroProducto + ' no puede estar vacio', this.tiempoToast);
+      // tslint:disable-next-line: prefer-for-of
+      for (let i = 0; i < this.formularios.length; i++) {
+        numeroProducto += 1;
+
+        if (this.formularios[i].nombre === '' || this.formularios[i].nombre === undefined) {
+          this.load.dismiss();
+          return this.presentToast('El campo nombre del producto numero ' + numeroProducto + ' no puede estar vacio', this.tiempoToast);
         } else {
-          if (this.formularios[i].precioCompra === '' || this.formularios[i].precioCompra === undefined) {
-            // tslint:disable-next-line: max-line-length
-            return this.presentToast('El campo precio de compra del producto numero ' + numeroProducto + ' no puede estar vacio', this.tiempoToast);
+          if (this.formularios[i].marca === '' || this.formularios[i].marca === undefined) {
+            this.load.dismiss();
+            return this.presentToast('El campo marca del producto numero ' + numeroProducto + ' no puede estar vacio', this.tiempoToast);
           } else {
-            if (this.formularios[i].precioVenta === '' || this.formularios[i].precioVenta === undefined) {
+            if (this.formularios[i].precioCompra === '' || this.formularios[i].precioCompra === undefined) {
+              this.load.dismiss();
               // tslint:disable-next-line: max-line-length
-              return this.presentToast('El campo precio de venta del producto numero ' + numeroProducto + ' no puede estar vacio', this.tiempoToast);
+              return this.presentToast('El campo precio de compra del producto numero ' + numeroProducto + ' no puede estar vacio', this.tiempoToast);
             } else {
-              if (this.formularios[i].stock === '' || this.formularios[i].stock === undefined) {
+              if (this.formularios[i].precioVenta === '' || this.formularios[i].precioVenta === undefined) {
+                this.load.dismiss();
                 // tslint:disable-next-line: max-line-length
-                return this.presentToast('El campo stock del producto numero ' + numeroProducto + ' no puede estar vacio', this.tiempoToast);
+                return this.presentToast('El campo precio de venta del producto numero ' + numeroProducto + ' no puede estar vacio', this.tiempoToast);
               } else {
+                if (this.formularios[i].stock === '' || this.formularios[i].stock === undefined) {
+                  this.load.dismiss();
+                  // tslint:disable-next-line: max-line-length
+                  return this.presentToast('El campo stock del producto numero ' + numeroProducto + ' no puede estar vacio', this.tiempoToast);
+                } else {
 
-                console.log('numeroProducto', numeroProducto);
-                console.log('length', this.formularios.length);
+                  console.log('numeroProducto', numeroProducto);
+                  console.log('length', this.formularios.length);
 
-                if (numeroProducto === this.formularios.length) {
-                  this.productosVerificados = true;
-                }
+                  if (numeroProducto === this.formularios.length) {
+                    this.productosVerificados = true;
+                  }
 
-                if (this.productosVerificados === true) {
+                  if (this.productosVerificados === true) {
 
-                  for (let i = 0; i < this.formularios.length; i++) {
-                    if (this.formularios[i].codigo === '' || this.formularios[i].codigo === undefined || this.formularios[i].codigo == null) {
-                      this.formularios[i].codigo = 0;
+                    for (let i = 0; i < this.formularios.length; i++) {
+                      if (this.formularios[i].codigo === '' || this.formularios[i].codigo === undefined || this.formularios[i].codigo == null) {
+                        this.formularios[i].codigo = 0;
+                      }
                     }
+
+                    for (let p = 0; p < this.formularios.length; p++) {
+                      this.dbSQLite.addProducto(this.formularios[p].codigo, this.formularios[p].nombre, this.formularios[p].marca, this.formularios[p].precioCompra, this.formularios[p].precioVenta, this.formularios[p].stock, this.formularios[p].descripcion)
+                        .then(_ => {
+
+                        });
+                    }
+
+                    if (this.indiceProducto === 1) {
+                      this.presentToast('Producto añadido exitosamente', 1750);
+                    } else {
+                      this.presentToast('Productos añadidos exitosamente', 1750);
+                    }
+
+                    this.formularios = [];
+                    this.indiceProducto = 0;
+                    this.productosVerificados = false;
+                    this.load.dismiss();
+                    this.router.navigate(['/home']);
                   }
-
-                  for (let p = 0; p < this.formularios.length; p++) {
-
-                    this.dbSQLite.addProducto(this.formularios[p].codigo, this.formularios[p].nombre, this.formularios[p].marca, this.formularios[p].precioCompra, this.formularios[p].precioVenta, this.formularios[p].stock, this.formularios[p].descripcion)
-                      .then(_ => {
-
-                      });
-
-                  }
-
-                  if (this.indiceProducto === 1) {
-                    this.presentToast('Producto añadido exitosamente', 1750);
-                  } else {
-                    this.presentToast('Productos añadidos exitosamente', 1750);
-                  }
-
-                  this.formularios = [];
-                  this.indiceProducto = 0;
-                  this.productosVerificados = false;
-                  this.router.navigate(['/home']);
                 }
               }
             }
           }
         }
       }
-    }
+    });
   }
 
 
