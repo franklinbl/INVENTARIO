@@ -67,12 +67,6 @@ export class ConfiguracionesPage implements OnInit {
       if (data != null) {
         this.darkMode = data;
       }
-
-      if (data === true) {
-        this.colorLabel = 'blancoUno';
-      } else {
-        this.colorLabel = 'negroUno';
-      }
     });
   }
 
@@ -115,9 +109,13 @@ export class ConfiguracionesPage implements OnInit {
     this.darkMode = !this.darkMode;
     console.log('DARK MODE CONFIGURACION', this.darkMode);
     document.body.classList.toggle('dark');
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
     this.dbLS.addTema(this.darkMode).then(() => {
       console.log('TEMA GUARDADO', this.darkMode);
+      if (this.darkMode === true) {
+        this.colorLabel = 'blancoUno';
+      } else {
+        this.colorLabel = 'negroUno';
+      }
     });
   }
 
