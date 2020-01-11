@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController, ToastController } from '@ionic/angular';
-import { Storage } from '@ionic/storage';
 import { LocalStorageService } from '../servicios/local-storage.service';
 
 @Component({
@@ -52,7 +51,7 @@ export class ConfiguracionesPage implements OnInit {
       this.nombreEmpresa = data;
     });
 
-    this.dbLS.getMoneda().then(data => {
+    this.dbLS.getMoneda().subscribe(data => {
       console.log(data);
       this.moneda = data;
     });

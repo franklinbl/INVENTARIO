@@ -15,7 +15,7 @@ export class AddProductoPage implements OnInit, OnDestroy {
 
   colorSeleccionado: any = undefined;
   nombreEmpresa: any = undefined;
-  moneda: any = undefined;
+  colorLabel: string;
 
   load: any;
 
@@ -59,14 +59,18 @@ export class AddProductoPage implements OnInit, OnDestroy {
       this.colorSeleccionado = color;
     });
 
-    this.dbLocalStorage.getMoneda().then(moneda => {
-      console.log('MONEDA', moneda);
-      this.moneda = moneda;
-    });
-
     this.dbLocalStorage.getNombreEmpresa().subscribe(nombre => {
       console.log('NOMBRE', nombre);
       this.nombreEmpresa = nombre;
+    });
+
+    this.dbLocalStorage.getTema().then(tema => {
+      console.log('TEMA', tema);
+      if (tema === true) {
+        this.colorLabel = 'blancoUno';
+      } else {
+        this.colorLabel = 'negroUno';
+      }
     });
 
     this.addFormulario();

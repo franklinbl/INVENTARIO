@@ -35,10 +35,7 @@
 
         <ion-col size="9">
           <div class="espcioInput">
-            <ion-label *ngIf="colorSeleccionado==='negroUno'" color="blancoUno" position="stacked">Codigo del producto
-            </ion-label>
-            <ion-label *ngIf="colorSeleccionado!=='negroUno'" color="{{colorSeleccionado}}" position="stacked">Codigo
-              del producto</ion-label>
+            <ion-label color="{{colorLabel}}" position="stacked">Codigo del producto</ion-label>
             <ion-input value="{{producto.codigo}}" [(ngModel)]="producto.codigo" placeholder="0000001"></ion-input>
           </div>
         </ion-col>
@@ -55,49 +52,32 @@
     </ion-grid>
 
     <div class="espcioInput">
-      <ion-label *ngIf="colorSeleccionado==='negroUno'" color="blancoUno" position="stacked">Nombre del producto
-      </ion-label>
-      <ion-label *ngIf="colorSeleccionado!=='negroUno'" color="{{colorSeleccionado}}" position="stacked">Nombre del
-        producto</ion-label>
+      <ion-label color="{{colorLabel}}" position="stacked">Nombre del producto</ion-label>
       <ion-input [(ngModel)]="producto.nombre" placeholder="Compacto"></ion-input>
     </div>
 
     <div class="espcioInput">
-      <ion-label *ngIf="colorSeleccionado==='negroUno'" color="blancoUno" position="stacked">Nombre de la marca
-      </ion-label>
-      <ion-label *ngIf="colorSeleccionado!=='negroUno'" color="{{colorSeleccionado}}" position="stacked">Nombre de la
-        marca</ion-label>
+      <ion-label color="{{colorLabel}}" position="stacked">Nombre de la marca</ion-label>
       <ion-input [(ngModel)]="producto.marca" placeholder="Valmy"></ion-input>
     </div>
 
     <div class="espcioInput">
-      <ion-label *ngIf="colorSeleccionado==='negroUno'" color="blancoUno" position="stacked">Precio de Compra del
-        producto</ion-label>
-      <ion-label *ngIf="colorSeleccionado!=='negroUno'" color="{{colorSeleccionado}}" position="stacked">Precio de
-        Compra del producto</ion-label>
+      <ion-label color="{{colorLabel}}" position="stacked">Precio de Compra del producto</ion-label>
       <ion-input inputmode="numeric" [(ngModel)]="producto.precioCompra" placeholder="7"></ion-input>
     </div>
 
     <div class="espcioInput">
-      <ion-label *ngIf="colorSeleccionado==='negroUno'" color="blancoUno" position="stacked">Precio de Venta del
-        producto</ion-label>
-      <ion-label *ngIf="colorSeleccionado!=='negroUno'" color="{{colorSeleccionado}}" position="stacked">Precio de Venta
-        del producto</ion-label>
+      <ion-label color="{{colorLabel}}" position="stacked">Precio de Venta del producto</ion-label>
       <ion-input inputmode="numeric" [(ngModel)]="producto.precioVenta" placeholder="10"></ion-input>
     </div>
 
     <div class="espcioInput">
-      <ion-label *ngIf="colorSeleccionado==='negroUno'" color="blancoUno" position="stacked">Stock del producto
-      </ion-label>
-      <ion-label *ngIf="colorSeleccionado!=='negroUno'" color="{{colorSeleccionado}}" position="stacked">Stock del
-        producto</ion-label>
+      <ion-label color="{{colorLabel}}" position="stacked">Stock del producto</ion-label>
       <ion-input inputmode="numeric" [(ngModel)]="producto.stock" placeholder="12"></ion-input>
     </div>
 
     <div class="espcioInput">
-      <ion-label *ngIf="colorSeleccionado==='negroUno'" color="blancoUno" position="stacked">Description</ion-label>
-      <ion-label *ngIf="colorSeleccionado!=='negroUno'" color="{{colorSeleccionado}}" position="stacked">Description
-      </ion-label>
+      <ion-label color="{{colorLabel}}" position="stacked">Description </ion-label>
       <ion-textarea rows="3" [(ngModel)]="producto.descripcion" placeholder="Compacto valmy doble funcion">
       </ion-textarea>
     </div>

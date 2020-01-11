@@ -11,14 +11,12 @@ CREATE TABLE IF NOT EXISTS productos(id INTEGER PRIMARY KEY AUTOINCREMENT,
                                      marca TEXT, 
                                      precioCompra NUMERIC,
                                      precioVenta NUMERIC, 
-                                     moneda TEXT, 
                                      stock INTEGER, 
                                      descripcion TEXT);
 
 CREATE TABLE IF NOT EXISTS cobros(id INTEGER PRIMARY KEY AUTOINCREMENT, 
                                   nombre TEXT, 
                                   monto NUMERIC, 
-                                  moneda TEXT, 
                                   fechaInicio DATE, 
                                   fechaFin DATE, 
                                   descripcion TEXT);
@@ -26,13 +24,11 @@ CREATE TABLE IF NOT EXISTS cobros(id INTEGER PRIMARY KEY AUTOINCREMENT,
 CREATE TABLE IF NOT EXISTS pagos(id INTEGER PRIMARY KEY AUTOINCREMENT, 
                                  nombre TEXT, 
                                  monto NUMERIC, 
-                                 moneda TEXT, 
                                  fechaFin DATE, 
                                  descripcion TEXT);
 
 CREATE TABLE IF NOT EXISTS abonos(id INTEGER PRIMARY KEY AUTOINCREMENT, 
                                   monto NUMERIC, 
-                                  moneda TEXT, 
                                   fecha DATE, 
                                   descripcion TEXT, 
                                   idCuenta INTEGER);

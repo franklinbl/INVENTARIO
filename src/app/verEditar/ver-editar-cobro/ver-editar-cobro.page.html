@@ -11,37 +11,32 @@
 <ion-content class="ion-padding">
 
   <div class="espcioInput">
-    <ion-label *ngIf="colorSeleccionado==='negroUno'" color="blancoUno" position="stacked">Nombre de la Empresa/persona</ion-label>
-    <ion-label *ngIf="colorSeleccionado!=='negroUno'" color="{{colorSeleccionado}}" position="stacked">Nombre de la Empresa/persona</ion-label>
+    <ion-label color="{{colorLabel}}" position="stacked">Nombre de la Empresa/persona</ion-label>
     <ion-input disabled="{{editar}}" [(ngModel)]="cuentaCobrar.nombre" placeholder="Valmy"
       value="{{cuentaCobrar.nombre}}"></ion-input>
   </div>
 
   <div class="espcioInput">
-    <ion-label *ngIf="colorSeleccionado==='negroUno'" color="blancoUno" position="stacked">Monto de la deuda</ion-label>
-    <ion-label *ngIf="colorSeleccionado!=='negroUno'" color="{{colorSeleccionado}}" position="stacked">Monto de la deuda</ion-label>
+    <ion-label color="{{colorLabel}}" position="stacked">Monto de la deuda</ion-label>
     <ion-input disabled="{{editar}}" inputmode="numeric" [(ngModel)]="cuentaCobrar.monto" placeholder="75000"
       value="{{cuentaCobrar.monto}}"></ion-input>
   </div>
 
   <div class="espcioInput">
-    <ion-label *ngIf="colorSeleccionado==='negroUno'" color="blancoUno" position="stacked">Fecha inicio de la deuda</ion-label>
-    <ion-label *ngIf="colorSeleccionado!=='negroUno'" color="{{colorSeleccionado}}" position="stacked">Fecha inicio de la deuda</ion-label>
+    <ion-label color="{{colorLabel}}" position="stacked">Fecha inicio de la deuda</ion-label>
     <ion-datetime disabled="{{editar}}" [(ngModel)]="cuentaCobrar.fechaInicio" display-Format="YYYY MMMM DD"
       min="2015-01-01" max="2050-01-01" value="{{cuentaCobrar.fechaInicio}}"></ion-datetime>
   </div>
 
   <div class="espcioInput">
-    <ion-label *ngIf="colorSeleccionado==='negroUno'" color="blancoUno" position="stacked">Fecha fin para el pago</ion-label>
-    <ion-label *ngIf="colorSeleccionado!=='negroUno'" color="{{colorSeleccionado}}" position="stacked">Fecha fin para el pago</ion-label>
+    <ion-label color="{{colorLabel}}" position="stacked">Fecha fin para el pago</ion-label>
     <ion-datetime disabled="{{editar}}" [(ngModel)]="cuentaCobrar.fechaFin" display-Format="YYYY MMMM DD"
       min="2015-01-01" max="2050-01-01" value="{{cuentaCobrar.fechaFin}}">
     </ion-datetime>
   </div>
 
   <div class="espcioInput">
-    <ion-label *ngIf="colorSeleccionado==='negroUno'" color="blancoUno" position="stacked">Description</ion-label>
-    <ion-label *ngIf="colorSeleccionado!=='negroUno'" color="{{colorSeleccionado}}" position="stacked">Description</ion-label>
+    <ion-label color="{{colorLabel}}" position="stacked">Description</ion-label>
     <ion-textarea disabled="{{editar}}" rows="5" [(ngModel)]="cuentaCobrar.descripcion"
       placeholder="Compacto valmy doble funcion" value="{{cuentaCobrar.descripcion}}">
     </ion-textarea>
@@ -114,7 +109,8 @@
           </ion-col>
 
           <ion-col size="6" *ngIf="editar==false">
-            <ion-button color="{{colorSeleccionado}}" expand="block" (click)="actualizarCuenta()">Actualizar</ion-button>
+            <ion-button color="{{colorSeleccionado}}" expand="block" (click)="actualizarCuenta()">Actualizar
+            </ion-button>
           </ion-col>
 
           <ion-col size="6" *ngIf="editar==true">

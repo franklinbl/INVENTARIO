@@ -23,6 +23,8 @@ export class VerEditarPagoPage implements OnInit, OnDestroy {
   colorSeleccionado: any = undefined;
   moneda: any = undefined;
 
+  colorLabel: string;
+
   tiempoToast = 1750;
 
   public cuentaPagar: CuentaPagar = {
@@ -53,9 +55,18 @@ export class VerEditarPagoPage implements OnInit, OnDestroy {
       this.colorSeleccionado = color;
     });
 
-    this.DBLocalStorage.getMoneda().then(moneda => {
+    this.DBLocalStorage.getMoneda().subscribe(moneda => {
       console.log('COLOR', moneda);
       this.moneda = moneda;
+    });
+
+    this.DBLocalStorage.getTema().then(tema => {
+      console.log('TEMA', tema);
+      if (tema === true) {
+        this.colorLabel = 'blancoUno';
+      } else {
+        this.colorLabel = 'negroUno';
+      }
     });
 
     this.idCuentaPagar = this.rutaActiva.snapshot.params.id;

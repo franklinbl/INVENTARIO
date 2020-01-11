@@ -11,17 +11,20 @@ export class LocalStorageService {
 
   color = new BehaviorSubject([]);
   nombreEmpresa = new BehaviorSubject([]);
+  moneda = new BehaviorSubject([]);
 
   constructor(
     private storage: Storage
   ) {
     this.loadColor();
     this.loadNombreEmpresa();
+    this.loadMoneda();
   }
 
   getDatabaseState() {
     return this.dbReady.asObservable();
   }
+
 
 
 
@@ -43,6 +46,7 @@ export class LocalStorageService {
   }
 
 
+
   getNombreEmpresa(): Observable<any[]> {
     return this.nombreEmpresa.asObservable();
   }
@@ -61,6 +65,7 @@ export class LocalStorageService {
   }
 
 
+
   addPrimeraEntrada(primeraentrada) {
     return this.storage.set('primeraentrada', primeraentrada).then(data => {
       console.log('DATA', data);
@@ -74,17 +79,24 @@ export class LocalStorageService {
   }
 
 
+
+  getMoneda(): Observable<any[]> {
+    return this.moneda.asObservable();
+  }
+
   addMoneda(moneda) {
     return this.storage.set('moneda', moneda).then(data => {
       console.log('DATA', data);
+      this.loadMoneda();
     });
   }
 
-  getMoneda() {
+  loadMoneda() {
     return this.storage.get('moneda').then(data => {
-      return data;
+      this.moneda.next(data);
     });
   }
+
 
 
   addTema(tema) {

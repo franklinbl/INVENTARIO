@@ -11,27 +11,23 @@
 <ion-content class="ion-padding">
 
   <div class="espacioInput">
-    <ion-label *ngIf="colorSeleccionado==='negroUno'" color="blancoUno" position="stacked">Nombre de la Empresa/persona</ion-label>
-    <ion-label *ngIf="colorSeleccionado!=='negroUno'" color="{{colorSeleccionado}}" position="stacked">Nombre de la Empresa/persona</ion-label>
+    <ion-label color="{{colorLabel}}" position="stacked">Nombre de la Empresa/persona</ion-label>
     <ion-input [(ngModel)]="cuentaPagar.nombre" placeholder="Valmy"></ion-input>
   </div>
 
   <div class="espacioInput">
-    <ion-label *ngIf="colorSeleccionado==='negroUno'" color="blancoUno" position="stacked">Monto de la deuda</ion-label>
-    <ion-label *ngIf="colorSeleccionado!=='negroUno'" color="{{colorSeleccionado}}" position="stacked">Monto de la deuda</ion-label>
+    <ion-label color="{{colorLabel}}" position="stacked">Monto de la deuda</ion-label>
     <ion-input inputmode="numeric" [(ngModel)]="cuentaPagar.monto" placeholder="75"></ion-input>
   </div>
 
   <div class="espacioInput">
-    <ion-label *ngIf="colorSeleccionado==='negroUno'" color="blancoUno" position="stacked">Fecha fin para el pago</ion-label>
-    <ion-label *ngIf="colorSeleccionado!=='negroUno'" color="{{colorSeleccionado}}" position="stacked">Fecha fin para el pago</ion-label>
+    <ion-label color="{{colorLabel}}" position="stacked">Fecha fin para el pago</ion-label>
     <ion-datetime [(ngModel)]="cuentaPagar.fechaFin" display-Format="YYYY MMMM DD" min="2015-01-01" max="2050-01-01">
     </ion-datetime>
   </div>
 
   <div class="espacioInput">
-    <ion-label *ngIf="colorSeleccionado==='negroUno'" color="blancoUno" position="stacked">Description</ion-label>
-    <ion-label *ngIf="colorSeleccionado!=='negroUno'" color="{{colorSeleccionado}}" position="stacked">Description</ion-label>
+    <ion-label color="{{colorLabel}}" position="stacked">Description</ion-label>
     <ion-textarea rows="5" [(ngModel)]="cuentaPagar.descripcion" placeholder="Compacto valmy doble funcion">
     </ion-textarea>
   </div>

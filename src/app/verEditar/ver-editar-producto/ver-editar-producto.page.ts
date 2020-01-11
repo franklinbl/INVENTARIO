@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { SqliteBDService } from 'src/app/servicios/sqlite-bd.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AlertController, ToastController, MenuController, LoadingController } from '@ionic/angular';
@@ -11,10 +11,11 @@ import { Producto } from 'src/app/interfaces/interfaces';
   templateUrl: './ver-editar-producto.page.html',
   styleUrls: ['./ver-editar-producto.page.scss'],
 })
-export class VerEditarProductoPage implements OnInit {
+export class VerEditarProductoPage implements OnInit, OnDestroy {
 
   colorSeleccionado: any = undefined;
   load: any;
+  colorLabel: string;
 
   idProducto: number;
   editar = true;
@@ -66,6 +67,15 @@ export class VerEditarProductoPage implements OnInit {
     this.BDSQLite.getProducto(this.idProducto).then(data => {
       console.log(data);
       this.producto = data;
+    });
+
+    this.DBLocalStorage.getTema().then(tema => {
+      console.log('TEMA', tema);
+      if (tema === true) {
+        this.colorLabel = 'blancoUno';
+      } else {
+        this.colorLabel = 'negroUno';
+      }
     });
 
     console.log(this.producto);

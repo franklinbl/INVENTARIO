@@ -15,6 +15,8 @@ export class AddVentaPage implements OnInit, OnDestroy {
   colorSeleccionado: any = undefined;
   load: any;
 
+  colorLabel: string;
+
   ventasDelDia: any[] = [];
   productos = [];
   formularios = [];
@@ -61,6 +63,16 @@ export class AddVentaPage implements OnInit, OnDestroy {
     this.dbLocalStorage.getColor().subscribe(color => {
       this.colorSeleccionado = color;
     });
+
+    this.dbLocalStorage.getTema().then(tema => {
+      console.log('TEMA', tema);
+      if (tema === true) {
+        this.colorLabel = 'blancoUno';
+      } else {
+        this.colorLabel = 'negroUno';
+      }
+    });
+
     this.dbSQLite.getDatabaseState().subscribe(rdy => {
       if (rdy) {
 

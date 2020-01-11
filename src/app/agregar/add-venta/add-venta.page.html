@@ -41,8 +41,7 @@
 
           <ion-col size="3">
             <div class="espcioInput">
-              <ion-label *ngIf="colorSeleccionado!=='negroUno'" color="{{colorSeleccionado}}" position="stacked">Stock</ion-label>
-              <ion-label *ngIf="colorSeleccionado==='negroUno'" color="blancoUno" position="stacked">Stock</ion-label>
+              <ion-label color="{{colorLabel}}" position="stacked">Stock</ion-label>
               <ion-input disabled inputmode="text" value="{{item.stock}}" placeholder="2">
               </ion-input>
             </div>
@@ -58,7 +57,7 @@
 
       <ion-row>
         <ion-col size="12">
-          <ion-button expand="block" (click)="addVenta()">Confirmar venta</ion-button>
+          <ion-button expand="block" color="{{colorSeleccionado}}" (click)="addVenta()">Confirmar venta</ion-button>
         </ion-col>
       </ion-row>
 

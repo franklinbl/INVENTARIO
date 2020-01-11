@@ -42,6 +42,7 @@ export class SqliteBDService {
           .then((db: SQLiteObject) => {
             this.database = db;
             this.seedDatabase();
+            // this.seedDatabaseInsertProductos();
           });
       });
       this.loading.dismiss();
@@ -68,6 +69,18 @@ export class SqliteBDService {
             this.loadPagos();
             this.loadAbonos();
             this.loadVentasDelDia(moment().format('YYYY-MM-DD'));
+            this.dbReady.next(true);
+          })
+          .catch(e => console.error(e));
+      });
+  }
+
+  seedDatabaseInsertProductos() {
+    this.http.get('assets/seed2.sql', { responseType: 'text' })
+      .subscribe(sql => {
+        this.sqlitePorter.importSqlToDb(this.database, sql)
+          .then(_ => {
+            this.loadProductos();
             this.dbReady.next(true);
           })
           .catch(e => console.error(e));

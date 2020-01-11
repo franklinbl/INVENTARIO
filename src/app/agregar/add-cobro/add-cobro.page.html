@@ -10,29 +10,29 @@
 
 <ion-content class="ion-padding">
   <div class="espacioInput">
-    <ion-label position="stacked">Nombre de la Empresa/persona</ion-label>
+  <ion-label color="{{colorLabel}}" position="stacked">Nombre de la Empresa/persona</ion-label>
     <ion-input [(ngModel)]="cuentaCobrar.nombre" placeholder="Valmy"></ion-input>
   </div>
 
   <div class="espacioInput">
-    <ion-label position="stacked">Monto de la deuda</ion-label>
+    <ion-label color="{{colorLabel}}" position="stacked">Monto de la deuda</ion-label>
     <ion-input inputmode="numeric" [(ngModel)]="cuentaCobrar.monto" placeholder="75"></ion-input>
   </div>
 
   <div class="espacioInput">
-    <ion-label position="stacked">Fecha inicio de la deuda</ion-label>
+    <ion-label color="{{colorLabel}}" position="stacked">Fecha inicio de la deuda</ion-label>
     <ion-datetime [(ngModel)]="cuentaCobrar.fechaInicio" display-Format="YYYY MMMM DD" min="2015-01-01"
       max="2050-01-01"></ion-datetime>
   </div>
 
   <div class="espacioInput">
-    <ion-label position="stacked">Fecha fin para el pago</ion-label>
+    <ion-label color="{{colorLabel}}" position="stacked">Fecha fin para el pago</ion-label>
     <ion-datetime [(ngModel)]="cuentaCobrar.fechaFin" display-Format="YYYY MMMM DD" min="2015-01-01" max="2050-01-01">
     </ion-datetime>
   </div>
 
   <div class="espacioInput">
-    <ion-label position="stacked">Description</ion-label>
+    <ion-label color="{{colorLabel}}" position="stacked">Description</ion-label>
     <ion-textarea rows="5" [(ngModel)]="cuentaCobrar.descripcion" placeholder="Compacto valmy doble funcion">
     </ion-textarea>
   </div>

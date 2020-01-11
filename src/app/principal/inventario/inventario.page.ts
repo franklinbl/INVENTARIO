@@ -37,7 +37,7 @@ export class InventarioPage implements OnInit, OnDestroy {
       this.colorSeleccionado = color;
     });
 
-    this.DBLocalStorage.getMoneda().then(moneda => {
+    this.DBLocalStorage.getMoneda().subscribe(moneda => {
       console.log('MONEDA', moneda);
       this.moneda = moneda;
     });
