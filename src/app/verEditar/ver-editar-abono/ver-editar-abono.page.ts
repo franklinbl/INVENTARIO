@@ -17,6 +17,7 @@ export class VerEditarAbonoPage implements OnInit, OnDestroy {
   idAbono: number;
   editar = true;
   load: any;
+  colorLabel: string;
 
   montoRestante = 0;
   montosAbonados = 0;
@@ -50,6 +51,15 @@ export class VerEditarAbonoPage implements OnInit, OnDestroy {
     this.dbSQLite.getAbono(this.idAbono).then(data => {
       console.log(data);
       this.abono = data;
+    });
+
+    this.dbLocalStorage.getTema().then(tema => {
+      console.log('TEMA', tema);
+      if (tema === true) {
+        this.colorLabel = 'blancoUno';
+      } else {
+        this.colorLabel = 'negroUno';
+      }
     });
 
     this.dbLocalStorage.getColor().subscribe(color => {

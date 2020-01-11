@@ -17,7 +17,7 @@ export class PagarPage implements OnInit {
   cuentasPagar: CuentaPagar[] = [];
   textoBuscar = '';
 
-  moneda: string;
+  moneda: any;
 
   constructor(
     private dbStorage: LocalStorageService,
@@ -34,7 +34,7 @@ export class PagarPage implements OnInit {
       this.colorSeleccionado = data;
     });
 
-    this.dbStorage.getMoneda().then(data => {
+    this.dbStorage.getMoneda().subscribe(data => {
       console.log(data);
       this.moneda = data;
     });

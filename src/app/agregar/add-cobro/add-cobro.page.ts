@@ -16,6 +16,7 @@ export class AddCobroPage implements OnInit, OnDestroy {
   tiempoToast = 1750;
   colorSeleccionado: any[] = undefined;
   load: any;
+  colorLabel: string;
 
   cuentaCobrar = {
     nombre: undefined,
@@ -48,6 +49,15 @@ export class AddCobroPage implements OnInit, OnDestroy {
     this.dbLocalStorage.getColor().subscribe(color => {
       console.log('COLOR', color);
       this.colorSeleccionado = color;
+    });
+
+    this.dbLocalStorage.getTema().then(tema => {
+      console.log('TEMA', tema);
+      if (tema === true) {
+        this.colorLabel = 'blancoUno';
+      } else {
+        this.colorLabel = 'negroUno';
+      }
     });
   }
 

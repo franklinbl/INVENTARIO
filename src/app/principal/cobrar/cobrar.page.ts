@@ -17,7 +17,7 @@ export class CobrarPage implements OnInit {
   cuentasCobrar: CuentaCobrar[] = [];
   textoBuscar = '';
 
-  moneda: string;
+  moneda: any;
 
   constructor(
     private BDLocalStorage: LocalStorageService,
@@ -36,7 +36,7 @@ export class CobrarPage implements OnInit {
       }
     });
 
-    this.BDLocalStorage.getMoneda().then(data => {
+    this.BDLocalStorage.getMoneda().subscribe(data => {
       console.log(data);
       this.moneda = data;
     });

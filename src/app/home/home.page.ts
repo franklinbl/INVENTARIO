@@ -29,25 +29,27 @@ export class HomePage implements OnInit {
   ngOnInit() {
 
     this.dbLS.getTema().then(data => {
-      console.log('DATA DARK MODE', data)
+      console.log('DATA DARK MODE', data);
       if (data === true) {
         document.body.classList.toggle('dark');
         this.dark = data;
       }
-    })
+    });
 
     this.dbLS.getPrimeraEntrada().then(data => {
-      console.log('DATA PRIMERA VES', data)
+      console.log('DATA PRIMERA VES', data);
       if (data == null) {
-        this.abrirConfiguraciones()
+        this.dbLS.addColor('negroUno');
+        this.dbLS.addTema(false);
+        this.abrirConfiguraciones();
       }
 
       this.dbLS.getColor().subscribe(data => {
         console.log(data);
         this.colorSeleccionado = data;
-        console.log('COLOR', this.colorSeleccionado)
+        console.log('COLOR', this.colorSeleccionado);
       });
-    })
+    });
   }
 
 }

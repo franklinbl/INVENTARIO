@@ -13,11 +13,11 @@ import { CuentaPagar } from 'src/app/interfaces/interfaces';
 export class AddPagoPage implements OnInit, OnDestroy {
 
   colorSeleccionado: any = undefined;
-  moneda: any = undefined;
 
   cuentasPagar: CuentaPagar[] = [];
   tiempoToast = 1750;
   load: any;
+  colorLabel: string;
 
   cuentaPagar = {
     nombre: undefined,
@@ -43,9 +43,13 @@ export class AddPagoPage implements OnInit, OnDestroy {
       this.colorSeleccionado = color;
     });
 
-    this.dbLocalStorage.getMoneda().then(moneda => {
-      console.log('MONEDA', moneda);
-      this.moneda = moneda;
+    this.dbLocalStorage.getTema().then(tema => {
+      console.log('TEMA', tema);
+      if (tema === true) {
+        this.colorLabel = 'blancoUno';
+      } else {
+        this.colorLabel = 'negroUno';
+      }
     });
   }
 

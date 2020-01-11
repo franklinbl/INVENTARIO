@@ -13,6 +13,7 @@ import { SqliteBDService } from 'src/app/servicios/sqlite-bd.service';
 export class AddAbonoPage implements OnInit, OnDestroy {
 
   load: any;
+  colorLabel: string;
 
   idCuenta: number;
   tiempoToast = 1750;
@@ -46,6 +47,15 @@ export class AddAbonoPage implements OnInit, OnDestroy {
     this.dbLocalStorage.getColor().subscribe(color => {
       console.log('COLOR', color);
       this.colorSeleccionado = color;
+    });
+
+    this.dbLocalStorage.getTema().then(tema => {
+      console.log('TEMA', tema);
+      if (tema === true) {
+        this.colorLabel = 'blancoUno';
+      } else {
+        this.colorLabel = 'negroUno';
+      }
     });
   }
 

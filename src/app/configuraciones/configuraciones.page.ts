@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController, ToastController } from '@ionic/angular';
-import { Storage } from '@ionic/storage';
 import { LocalStorageService } from '../servicios/local-storage.service';
 
 @Component({
@@ -14,6 +13,7 @@ export class ConfiguracionesPage implements OnInit {
   nombreEmpresa: any = undefined;
   moneda: any = undefined;
   darkMode = false;
+  colorLabel: string;
 
   colores: string[] = [
     'azulUno',
@@ -52,7 +52,7 @@ export class ConfiguracionesPage implements OnInit {
       this.nombreEmpresa = data;
     });
 
-    this.dbLS.getMoneda().then(data => {
+    this.dbLS.getMoneda().subscribe(data => {
       console.log(data);
       this.moneda = data;
     });
@@ -66,6 +66,12 @@ export class ConfiguracionesPage implements OnInit {
       console.log(data);
       if (data != null) {
         this.darkMode = data;
+      }
+
+      if (data === true) {
+        this.colorLabel = 'blancoUno';
+      } else {
+        this.colorLabel = 'negroUno';
       }
     });
   }
